@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>view/CenterColumn.qml</file>
+        <file>view/ConfigDetails.qml</file>
+        <file>view/GUITimer.qml</file>
+        <file>view/LeftColumn.qml</file>
+        <file>view/MissionOneTasks.qml</file>
+        <file>view/MissionThreeTasks.qml</file>
+        <file>view/MissionTwoTasks.qml</file>
+        <file>view/Orientation.qml</file>
+        <file>view/RightColumn.qml</file>
+        <file>view/ROVBox.qml</file>
+        <file>view/ROVButton.qml</file>
+        <file>view/ROVComboBox.qml</file>
+        <file>view/ROVMissionTask.qml</file>
+        <file>view/ROVSlider.qml</file>
+        <file>view/ROVTab.qml</file>
+        <file>view/ROVThruster.qml</file>
+        <file>view/ROVTitle.qml</file>
+        <file>view/SystemDetails.qml</file>
+        <file>view/SystemView.qml</file>
+    </qresource>
+</RCC>
