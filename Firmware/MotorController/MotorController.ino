@@ -73,9 +73,8 @@ void programADDR(byte newAddr);
 #define STOP 0x02
 #define REQUEST_FAULT_DATA 0x03
 #define RESET_HBRIDGE 0x04
-#define SEND_FAULT_DATA 0x05
-#define BLINK_LEDS 0x06
-#define PROG_ADDR 0x07
+#define BLINK_LEDS 0x05
+#define PROG_ADDR 0x06
 
 //Pin Numbers
 #define TX 0
