@@ -91,7 +91,7 @@ void programADDR(byte newAddr);
 int fault1 = LOW;
 int fault2 = LOW;
 
-byte currAddr 0x0;
+byte currAddr = 0x0;
 byte eepromAddr;
 
 //packet to store incoming data
@@ -100,7 +100,7 @@ byte receivedPacket[] = {0, 0, 0, 0, 0};
 
 //Serial Protocol from bottom board
 //[start byte, address, command, argument 1, argument 2, check sum, end byte]
-byte returnPacket[] = {0x12, 0x00, SEND_FAULT_DATA, 0, 0, 0, 0x13};
+byte returnPacket[] = {0x12, 0x00, 0x05, 0, 0, 0, 0x13};
 
 //delay to kill if nothing sent in that time
 //40000 is ~1 seconds
@@ -244,8 +244,7 @@ byte usePacket(void)
 {
   //Checks if this is the correct address
   //If the functions returns true then the device will do something. If it is false then the device will not do anything
- if(receivedPacket[0] == currAddr)
- {
+ if(receivedPacket[0] == currAddr){
    //This is where the specific commands are done.
    
   switch (receivedPacket[1]){
@@ -356,11 +355,8 @@ byte usePacket(void)
    else 
      return 0; //Undefined Motor Command
  } 
-
-
-
  */
- else
+}else
    return 0; //Motor Address Was Incorrect
 }
 
