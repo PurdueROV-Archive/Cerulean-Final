@@ -3,10 +3,6 @@
  * Purdue IEEE ROV 2014
  * Luke and Ryan McBee
  * 
- 
- 
- 
- 
  * This sketch is used to control a attiny 84 microcontroller used to control a motor.
  * This sketch also dictates how information is sent and received from the motor controllers.
  *
@@ -40,12 +36,16 @@
  ***************************************************************************************************************************************/
 
 #include <SoftwareSerial.h>
+#include <EEPROM.h>
+
+
 
 //function declarations
 byte crc8(const byte *packet);
 byte readPacket(void);
 byte usePacket(void);
 void blinkLEDS(void);
+void programADDR(byte newAddr);
 
 //Sets what baud rate we are opperating at
 #define BAUD_RATE 57600
@@ -59,7 +59,11 @@ void blinkLEDS(void);
 #define RESET_DELAY_TIME 10
 
 //the address of the motor controller
-#define ADDRESS 0x07  
+//the hardcoded addres of the motor should be from 0x11 to 0x18
+//use the reprogram command to set the address in eeprom manually
+#define ADDRESS 0x11  
+
+#define EEPROM_ADDR 0x0
 
 //disable checksum checking
 #define CHECKSUM_DISABLE false
@@ -71,6 +75,7 @@ void blinkLEDS(void);
 #define RESET_HBRIDGE 0x04
 #define SEND_FAULT_DATA 0x05
 #define BLINK_LEDS 0x06
+#define PROG_ADDR 0x07
 
 //Pin Numbers
 #define TX 0
@@ -86,6 +91,9 @@ void blinkLEDS(void);
 //variable that stores the fault values
 int fault1 = LOW;
 int fault2 = LOW;
+
+byte currAddr 0x0;
+byte eepromAddr;
 
 //packet to store incoming data
 // [address, command, argument 1, argument 2, check sum]
@@ -118,7 +126,13 @@ void setup()
   digitalWrite(READWRITE, LOW);
   digitalWrite(RESET, HIGH);
   pinMode(LED, OUTPUT);
-  
+ 
+  if( (eepromAddr = EEPROM.read(EEPROM_ADDR)) == 0xFF){
+    currAddr = ADDRESS;
+  }else{
+      currAddr = eepromAddr;
+  }
+    
   
   //Begin serial communication
   mySerial.begin(BAUD_RATE);
@@ -231,7 +245,7 @@ byte usePacket(void)
 {
   //Checks if this is the correct address
   //If the functions returns true then the device will do something. If it is false then the device will not do anything
- if(receivedPacket[0] == ADDRESS)
+ if(receivedPacket[0] == currAddr)
  {
    //This is where the specific commands are done.
    
@@ -279,11 +293,16 @@ byte usePacket(void)
     blinkLEDS();
     return 1;
    }
+   else if(receivedPacket[1] == PROG_ADDR)
+   {
+       programADDR(receivedPacket[2]);
+       return 1;
+   }
    else 
      return 0; //Undefined Motor Command
  } 
  else
-   return 0; //Motor Address Was Incorrectu
+   return 0; //Motor Address Was Incorrect
 }
 
 void blinkLEDS(void){
@@ -293,4 +312,10 @@ void blinkLEDS(void){
     digitalWrite(LED,LOW);
     delay(100);
   }
+}
+
+
+void programADDR(byte newAddr){
+  EEPROM.write(EEPROM_ADDR,newAddr);
+  currAddr = newAddr;
 }
