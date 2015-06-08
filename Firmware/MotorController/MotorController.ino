@@ -249,6 +249,62 @@ byte usePacket(void)
  {
    //This is where the specific commands are done.
    
+  switch (receivedPacket[1]){
+
+    //stop the motor
+    case STOP:
+      analogWrite(SPEED, 0);
+      return 1;
+
+    //set speed and direction
+    case CONTROL_MOTOR:
+      analogWrite(LED, receivedPacket[3]);
+      analogWrite(SPEED, receivedPacket[3]);
+      digitalWrite(DIRECTION, receivedPacket[2]);
+      return 1;
+
+    //return fault data
+    case REQUEST_FAULT_DATA:
+      returnPacket[3] = !(digitalRead(FAULT1));
+      returnPacket[4] = !(digitalRead(FAULT2));
+      returnPacket[5] = crc8(returnPacket, 1, 4);
+     
+     
+      //Puts the rs485 chip in write mode, sends data to the bottom board, and puts the rs485 chip in read mode
+      digitalWrite(READWRITE, HIGH);
+      delay(RS485_DELAY_TIME);
+      for(int i = 0; i < 7; i++){
+        mySerial.write(returnPacket[i]);
+      }
+      delay(RS485_DELAY_TIME);
+      digitalWrite(READWRITE, LOW);
+        
+      return 1;
+
+    //reset H-bridge
+    case RESET_HBRIDGE:
+      digitalWrite(RESET, HIGH); 
+      delay(RESET_DELAY_TIME);
+      digitalWrite(RESET, LOW);
+      return 1;
+
+    //Blink LED
+    case BLINK_LEDS:
+
+      blinkLEDS();
+      return 1;
+        
+    //program new address into EEPROM
+    case PROG_ADDR:
+      programADDR(receivedPacket[2]);
+      return 1;
+
+    default:
+      return 0;
+  }
+
+
+  /*
    //Stop the motor
    if(receivedPacket[1] == STOP)
    {
@@ -301,6 +357,10 @@ byte usePacket(void)
    else 
      return 0; //Undefined Motor Command
  } 
+
+
+
+ */
  else
    return 0; //Motor Address Was Incorrect
 }
