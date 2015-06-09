@@ -77,15 +77,42 @@ ROVBox {
                 y: 20
                 spacing: 20
 
-                ROVButton {
-                    id: serialControl
-                    height: 70
-                    width: 150
-                    text: qsTr("Start")
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: {
-                        controller.running = !controller.running;
-                        console.log(controller.running);
+                Item {
+                    height: 30
+                    width: parent.width
+
+                    ComboBox {
+                        id: serialCombo
+                        height: 30
+                        anchors.left: parent.left;
+                        anchors.right: refresh.left;
+                        anchors.margins: 20
+                        model: controller.SerialDevices
+                        enabled: !controller.Running
+                        onCurrentIndexChanged: controller.SerialSelect(currentIndex)
+                    }
+
+                    ROVButton {
+                        id: refresh
+                        height: 30
+                        width: 30
+                        anchors.right: serialControl.left
+                        anchors.margins: 20
+                        text: qsTr("↻")
+                        fontSize: 20
+                        enabled: !controller.Running
+                        onClicked: controller.RefreshSerial()
+                    }
+
+                    ROVButton {
+                        id: serialControl
+                        height: 30
+                        width: 150
+                        anchors.right: parent.right
+                        anchors.margins: 20
+                        text: (!controller.Running) ? "Connect" : "Stop"
+                        fontSize: 20
+                        onClicked: controller.Running = !controller.Running
                     }
                 }
             }

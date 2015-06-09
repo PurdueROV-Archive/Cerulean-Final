@@ -1,11 +1,13 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += core qml quick serialport
 
 SOURCES += main.cpp \
     controller.cpp \
     controlpacket.cpp \
-    motor.cpp
+    motor.cpp \
+    model.cpp \
+    serial.cpp
 
 RESOURCES += qml.qrc
 
@@ -48,4 +50,6 @@ HEADERS += \
     controller.h \
     controlpacket.h \
     motor.h \
-    main.h
+    main.h \
+    model.h \
+    serial.h

@@ -9,20 +9,12 @@ ComboBox {
     style: ComboBoxStyle {
         background: Rectangle {
             border.width: control.activeFocus ? 2 : 1
-            color: control.hovered ? "#DDEEFF" : "#00000000"
+            color: control.hovered ? "#333333" : "#00000000"
             radius: 0
-            border.color: "#b1964c"
-            implicitWidth: 25
-            implicitHeight: 25
+            border.color: mainColor
+            implicitWidth: 30
+            implicitHeight: 30
         }
 
-        label: Label {
-            text: control.text
-            verticalAlignment: Text.AlignVCenter
-            color: mainColor
-            font.bold: true
-            horizontalAlignment: Text.AlignHCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
     }
 }

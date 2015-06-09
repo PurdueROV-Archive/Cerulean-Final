@@ -8,11 +8,13 @@ import "view" as ROVView
 
 Window {
     property string rovName: "Cerulean"
-    property string mainColor: "#6D9BC3"
+    property string cerulean: "#6D9BC3"
+    property string mainColor: cerulean
+    id: mainWindow
     visible: true
     width: 1920
     height: 1010
-    visibility: "Maximized"
+    //visibility: "Maximized"
     color: "#111111"
     title: "Purdue IEEE | ROV " + rovName
     objectName: "mainWindow"
@@ -71,7 +73,7 @@ Window {
                 width: parent.width/3
                 height: titleRow.height
                 color: mainColor
-                text: "ROV" + rovName
+                text: "ROV " + rovName
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignRight
                 font.italic: true

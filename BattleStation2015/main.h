@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <QtGlobal>
+#include <QDebug>
 
 #endif // MAIN_H
 

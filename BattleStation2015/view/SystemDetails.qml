@@ -33,47 +33,47 @@ ROVBox {
 
             ROVSlider {
                 address: 1
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
 
             ROVSlider {
                 address: 2
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
 
             ROVSlider {
                 address: 3
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
             ROVSlider {
                 address: 4
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
 
             ROVSlider {
                 address: 5
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
 
             ROVSlider {
                 address: 6
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
 
             ROVSlider {
                 address: 7
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
             ROVSlider {
                 address: 8
-                onValueChanged: controller.thrusterControlMax(address, value)
+                onValueChanged: controller.ThrusterControlScale(address, value)
                 labeltext: "Thruster " + address + ":"
             }
         }
