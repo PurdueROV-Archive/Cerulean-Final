@@ -15,15 +15,15 @@
 
 #define CRC_BYTE 0xC5
 
-#define THRUSTER_BYTE_START 2
+#define THRUSTER_BYTE_START 1
 
-#define FOOT_TURNER 10
+#define FOOT_TURNER 9
 
-#define TOOLS 11
+#define TOOLS 10
 
-#define STEPPER 12
+#define STEPPER 11
 
-#define LED_START 13
+#define LED_START 12
 
 #define THRUSTER_COUNT 8
 

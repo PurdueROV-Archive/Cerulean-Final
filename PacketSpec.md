@@ -2,24 +2,24 @@
 
 Byte # | Description | Type
 -------|-------------|------
-  00   |    Header   | 0x12 - 18 decimal
-  01   |   Command   | 0x01 == Control
-  02   |   Motor 1   | Signed int (1 byte)   
-  03   |   Motor 2   | Signed int (1 byte)   
-  04   |   Motor 3   | Signed int (1 byte)   
-  05   |   Motor 4   | Signed int (1 byte)   
-  06   |   Motor 5   | Signed int (1 byte)   
-  07   |   Motor 6   | Signed int (1 byte)   
-  08   |   Motor 7   | Signed int (1 byte)   
-  09   |   Motor 8   | Signed int (1 byte)   
-  10   | Foot Turner | Signed int (1 byte)  
-  11   |   Tools 1   | 1 bit more each state of tool (check below)  
-  12   |   Stepper   | 1 byte (check below) for laser tool  
-  13   |    LED1     | 1 byte (0 to 255 PWM Val)  
-  14   |    LED2     | 1 byte (0 to 255 PWM Val)  
-  15   |    LED3     | 1 byte (0 to 255 PWM Val)  
-  16   |    LED4     | 1 byte (0 to 255 PWM Val)  
-  17   |    LED5     | 1 byte (0 to 255 PWM Val)  
+  00   |   Header    | 0x12 - 18 decimal
+  01   |   Motor 1   | Signed int (1 byte)   
+  02   |   Motor 2   | Signed int (1 byte)   
+  03   |   Motor 3   | Signed int (1 byte)   
+  04   |   Motor 4   | Signed int (1 byte)   
+  05   |   Motor 5   | Signed int (1 byte)   
+  06   |   Motor 6   | Signed int (1 byte)   
+  07   |   Motor 7   | Signed int (1 byte)   
+  08   |   Motor 8   | Signed int (1 byte)   
+  09   | Foot Turner | Signed int (1 byte)  
+  10   |   Tools 1   | 1 bit more each state of tool (check below)  
+  11   |   Stepper   | 1 byte (check below) for laser tool  
+  12   |    LED1     | 1 byte (0 to 255 PWM Val)  
+  13   |    LED2     | 1 byte (0 to 255 PWM Val)  
+  14   |    LED3     | 1 byte (0 to 255 PWM Val)  
+  15   |    LED4     | 1 byte (0 to 255 PWM Val)  
+  16   |    LED5     | 1 byte (0 to 255 PWM Val)  
+  17   |   Command   | 0x01 == Control
   18   | CRC8 Check  | (use 0xD5 as polynomial) 
   19   | Tail Byte   | 0x13 - 19 decimal  
   
