@@ -7,7 +7,9 @@ SOURCES += main.cpp \
     controlpacket.cpp \
     motor.cpp \
     model.cpp \
-    serial.cpp
+    serial.cpp \
+    mainthread.cpp \
+    joystick.cpp
 
 RESOURCES += qml.qrc
 
@@ -40,16 +42,18 @@ win32 {
 #}
 
 
-macx {
-    INCLUDEPATH += $$PWD/SDL/include
-    INCLUDEPATH += -F/Library/Frameworks
-    QMAKE_LFLAGS += -F/Library/Frameworks/ -framework SDL2
-}
+#macx {
+#    INCLUDEPATH += $$PWD/SDL/include
+#    INCLUDEPATH += -F/Library/Frameworks
+#    QMAKE_LFLAGS += -F/Library/Frameworks/ -framework SDL2
+#}
 
 HEADERS += \
     controller.h \
     controlpacket.h \
-    motor.h \
     main.h \
     model.h \
-    serial.h
+    motor.h \
+    serial.h \
+    mainthread.h \
+    joystick.h

@@ -11,7 +11,10 @@ class Controller : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool Running READ Running WRITE SetRunning NOTIFY RunningChanged())
+
     Q_PROPERTY(QStringList SerialDevices READ SerialDevices NOTIFY SerialDevicesChanged)
+
+    Q_PROPERTY(QStringList JoystickDevices READ JoystickDevices NOTIFY JoystickDevicesChanged)
 
 
 /////////////////////////////////////////
@@ -68,9 +71,6 @@ public slots:
     //Select a device based combo index
     void SerialSelect(int index);
 
-    //Refresh device list
-    void RefreshSerial();
-
 private: //dependencies
     int index; //Selected Serial Device Index
 
@@ -80,8 +80,44 @@ public:
     void modelSetSerialDevices(QStringList serialDevices);
 
 signals:
-    void modelRefreshSerial(); //emit to refresh serial qlist
     void modelSelectSerial(int index); //emit when serial device combobox index changed
+
+
+/////////////////////////////////////////
+//    Joystick Control Properties      //
+/////////////////////////////////////////
+
+//QML Property Definitions
+public:
+    QStringList JoystickDevices() const; //Read property
+
+    //Write Property
+
+private: //Dependencies
+    QStringList joystickDevices;
+
+signals: //Signal to emit on change
+    void JoystickDevicesChanged();
+
+//Additional Control Methods
+public slots:
+
+    //Select a device based combo index
+    void Joystick1Select(int index);
+    void Joystick2Select(int index);
+
+private: //dependencies
+    int joystick1Index; //Selected Serial Device Index
+    int joystick2Index;
+
+//Model C++ Control Methods
+public:
+    //set serial device qlist for combobox
+    void modelSetJoystickDevices(QStringList joystickDevices);
+
+signals:
+    void modelJoystick1Select(int index); //emit when serial device combobox index changed
+    void modelJoystick2Select(int index); //emit when serial device combobox index changed
 
 
 /////////////////////////////////////////
@@ -115,7 +151,10 @@ private: //dependencies
 /////////////////////////////////////////
 public slots:
     void doSomething();
+    void RefreshLists();
+
+signals:
+    void modelRefreshList(); //emit to refresh serial qlist
 
 };
-
 #endif // CONTROLLER_H

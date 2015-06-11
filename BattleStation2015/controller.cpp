@@ -55,11 +55,6 @@ void Controller::SerialSelect(int index) {
     emit modelSelectSerial(this->index);
 }
 
-//Refresh Serial Devices
-void Controller::RefreshSerial() {
-    emit modelRefreshSerial();
-}
-
 //Model C++ Control Methods
 
 //set serial device qlist for combobox
@@ -67,6 +62,39 @@ void Controller::modelSetSerialDevices(QStringList serialDevices) {
     qDebug() << "Setting new devices";
     this->serialDevices = serialDevices;
     emit SerialDevicesChanged();
+}
+
+/////////////////////////////////////////
+//     Serial Control Properties       //
+/////////////////////////////////////////
+
+//Read Property
+QStringList Controller::JoystickDevices() const {
+    return joystickDevices;
+}
+
+//Additional Control Methods
+
+//Select a device
+void Controller::Joystick1Select(int index) {
+    joystick1Index = index;
+    emit modelJoystick1Select(joystick1Index);
+}
+
+//Select a device
+void Controller::Joystick2Select(int index) {
+    joystick2Index = index;
+    emit modelJoystick2Select(joystick2Index);
+}
+
+
+//Model C++ Control Methods
+
+//set serial device qlist for combobox
+void Controller::modelSetJoystickDevices(QStringList joystickDevices) {
+    qDebug() << "Setting new joystick";
+    this->joystickDevices = joystickDevices;
+    emit JoystickDevicesChanged();
 }
 
 
@@ -94,6 +122,10 @@ void Controller::doSomething() {
     qDebug() << "Testing!";
 }
 
+//Refresh Serial Devices
+void Controller::RefreshLists() {
+    emit modelRefreshList();
+}
 
 
 

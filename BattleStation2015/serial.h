@@ -24,8 +24,12 @@ public:
     bool connect();
     void stop();
 
+    bool isOpen();
+
     bool write(char* byte);
     bool write(QByteArray data);
+
+    QByteArray read();
 
 private:
     QStringList serialDevicesList;

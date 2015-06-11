@@ -2,13 +2,14 @@
 
 
 Model::Model() : QObject() {
-
+    running = false;
 }
 
 void Model::init(Controller* controller) {
     this->controller = controller;
-    QObject::connect(this->controller, &Controller::modelRefreshSerial,
-                     this, &Model::refreshSerial);
+
+    QObject::connect(this->controller, &Controller::modelRefreshList,
+                     this, &Model::refreshList);
 
     QObject::connect(this->controller, &Controller::modelSelectSerial,
                      this, &Model::selectSerial);
@@ -21,14 +22,26 @@ void Model::init(Controller* controller) {
 
     serial = new Serial();
     controller->modelSetSerialDevices(serial->serialDevices());
+
+    joystick1 = new Joystick();
+    joystick2 = new Joystick();
+
+    controller->modelSetJoystickDevices(joystick1->joystickList());
+
+    qThread = new QThread(this);
+    mainThread = new MainThread(serial);
 }
 
 Model::~Model() {
+    if (serial) delete serial;
+    if (mainThread) delete mainThread;
+    if (qThread) delete qThread;
 
 }
 
-void Model::refreshSerial() {
+void Model::refreshList() {
     controller->modelSetSerialDevices(serial->serialDevices());
+    controller->modelSetJoystickDevices(joystick1->joystickList());
 }
 
 void Model::selectSerial(int index) {
@@ -36,24 +49,16 @@ void Model::selectSerial(int index) {
 }
 
 void Model::start() {
-    qDebug() << "Starting in model";
-    if (serial->connect()) {
-        qDebug() << "Serial connected!";
-        for (int i = 0; i < 2048; i++) {
-            serial->write("A");
-        }
-
-        ControlPacket* cPacket = new ControlPacket();
-        cPacket->print();
-        serial->write(cPacket->getPacket());
-
-
+    running = true;
+    if (mainThread->start()) {
+        running = true;
     } else {
-        controller->modelStopRunning();
+        running = false;
+        emit controller->modelStopRunning();
     }
 }
 
 void Model::stop() {
-    qDebug() << "Stopping";
-    serial->stop();
+    running = false;
+    mainThread->stop();
 }

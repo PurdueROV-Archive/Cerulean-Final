@@ -75,41 +75,99 @@ ROVBox {
             Column {
                 id: configsettings2
                 y: 20
-                spacing: 20
+                spacing: 10
 
-                Item {
+                Label {
+                    text: "Serial Device:"
+                    anchors.left: parent.left;
+                    anchors.right: parent.right
+                    font.bold: true
+                    font.pixelSize: 18
+                    color: "white"
+                }
+
+                ComboBox {
+                    id: serialCombo
                     height: 30
-                    width: parent.width
+                    anchors.left: parent.left;
+                    anchors.right: parent.right
+                    model: controller.SerialDevices
+                    enabled: !controller.Running
+                    onCurrentIndexChanged: controller.SerialSelect(currentIndex)
+                }
 
-                    ComboBox {
-                        id: serialCombo
-                        height: 30
-                        anchors.left: parent.left;
-                        anchors.right: refresh.left;
-                        anchors.margins: 20
-                        model: controller.SerialDevices
-                        enabled: !controller.Running
-                        onCurrentIndexChanged: controller.SerialSelect(currentIndex)
+                Label {
+                    text: "Joystick 1:"
+                    anchors.left: parent.left;
+                    anchors.right: parent.right
+
+                    font.bold: true
+                    font.pixelSize: 18
+                    color: "white"
+                }
+
+                ComboBox {
+                    id: joystick1Combo
+                    height: 30
+                    anchors.left: parent.left;
+                    anchors.right: parent.right;
+                    model: controller.JoystickDevices
+                    enabled: !controller.Running
+                    onModelChanged: if (count == 0) currentIndex = -1;
+                    onCurrentIndexChanged: {
+                        controller.Joystick1Select(currentIndex)
+                        if (joystick2Combo.currentIndex == currentIndex && joystick2Combo.currentIndex != -1)
+                            joystick2Combo.currentIndex = -1;
                     }
+                }
+
+                Label {
+                    text: "Joystick 2:"
+                    anchors.left: parent.left;
+                    anchors.right: parent.right
+                    font.bold: true
+                    font.pixelSize: 18
+                    color: "white"
+                }
+
+                ComboBox {
+                    id: joystick2Combo
+                    height: 30
+                    anchors.left: parent.left;
+                    anchors.right: parent.right
+                    model: controller.JoystickDevices
+                    enabled: !controller.Running
+                    onModelChanged: if (count == 0) currentIndex = -1;
+                    onCurrentIndexChanged: {
+                        controller.Joystick2Select(currentIndex)
+                        if (joystick1Combo.currentIndex == currentIndex && joystick1Combo.currentIndex != -1)
+                            joystick1Combo.currentIndex = -1;
+                    }
+                 }
+
+
+                Row {
+                    width: 320
+                    height: 30
+                    spacing: 20
+
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     ROVButton {
                         id: refresh
                         height: 30
-                        width: 30
-                        anchors.right: serialControl.left
-                        anchors.margins: 20
-                        text: qsTr("↻")
+                        width: 150
+                        text: "Refresh"
                         fontSize: 20
                         enabled: !controller.Running
-                        onClicked: controller.RefreshSerial()
+                        onClicked: controller.RefreshLists()
                     }
 
                     ROVButton {
                         id: serialControl
                         height: 30
                         width: 150
-                        anchors.right: parent.right
-                        anchors.margins: 20
+
                         text: (!controller.Running) ? "Connect" : "Stop"
                         fontSize: 20
                         onClicked: controller.Running = !controller.Running
