@@ -170,7 +170,10 @@ ROVBox {
 
                         text: (!controller.Running) ? "Connect" : "Stop"
                         fontSize: 20
-                        onClicked: controller.Running = !controller.Running
+                        onClicked: {
+                            if (joystick1Combo.currentIndex >= 0)
+                                controller.Running = !controller.Running
+                        }
                     }
                 }
             }

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     model.cpp \
     serial.cpp \
     mainthread.cpp \
-    joystick.cpp
+    joystick.cpp \
+    sdlwrap.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,8 +19,6 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
-
-
 
 win32 {
 
@@ -56,4 +55,5 @@ HEADERS += \
     motor.h \
     serial.h \
     mainthread.h \
-    joystick.h
+    joystick.h \
+    sdlwrap.h

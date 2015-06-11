@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    //qRegisterMetaType<Sint16>("Sint16");
+    qRegisterMetaType<Sint16>("Sint16");
 
     Model* model = new Model();
     model->init(control);

@@ -1,40 +1,130 @@
 #include "joystick.h"
 
 Joystick::Joystick() : QObject() {
-    if (SDL_Init(SDL_INIT_JOYSTICK) != 0) {
-        qDebug() << SDL_GetError();
-     }
+    connected = false;
+    joystickId = -1;
+    if (SdlWrap::ready() == false) {
+        SdlWrap::init();
+    }
 }
 
-QStringList Joystick::joystickList() {
+bool Joystick::select(int index) {
+    if (index < 0 || index >= SdlWrap::getNumJoysticks()) return false;
+
+    joystickId = index;
+    joystickName = SdlWrap::getJoystickName(index);
+    return true;
+}
+
+bool Joystick::connect() {
+    if (joystickId < 0 || joystickId >= SdlWrap::getNumJoysticks()) return false;
+
+    sdlJoystick = SDL_JoystickOpen(joystickId);
+    if (sdlJoystick == NULL) {
+        connected = false;
+        return connected;
+    }
+
     SDL_JoystickUpdate();
 
-    deviceList.clear();
+    axes.clear();
+    axesZero.clear();
+    buttons.clear();
 
-    for(int i = 0; i < SDL_NumJoysticks(); i++) {
-        QString info = QString(SDL_JoystickNameForIndex(i));
-        qDebug() << info;
-        if (!info.isEmpty()) {
-            deviceList.append(info);
+    numAxes = getNumAxes();
+    numButtons = getNumButtons();
+
+    for (int i = 0; i < numAxes; i++) {
+        axes.append(0);
+    }
+
+
+    for (int i = 0; i < numAxes; i++) {
+        int threshold = 5000;
+        qint16 axisOffset = SDL_JoystickGetAxis(sdlJoystick, i);
+        if (axisOffset < threshold && axisOffset > -threshold) {
+            axesZero.append(-axisOffset);
+        } else {
+            axesZero.append(0);
         }
     }
 
-    return deviceList;
-}
 
-bool Joystick::select(int id) {
-    return true;
-}
+    for (int i = 0; i < numButtons; i++) {
+        ButtonState state;
+        state.lastState = false;
+        state.currentState = false;
+        buttons.append(state);
+    }
 
-bool Joystick::init() {
-    return true;
+    connected = true;
+    return connected;
 }
 
 void Joystick::disconnect() {
+    connected = false;
+    if (sdlJoystick) SDL_JoystickClose(sdlJoystick);
+}
 
+bool Joystick::isConnected() {
+    return connected;
 }
 
 Joystick::~Joystick() {
-
+    if (sdlJoystick) SDL_JoystickClose(sdlJoystick);
+    connected = false;
 }
 
+int Joystick::getNumAxes() {
+    return SDL_JoystickNumAxes(sdlJoystick);
+}
+
+int Joystick::getNumButtons() {
+    return SDL_JoystickNumButtons(sdlJoystick);
+}
+
+bool Joystick::getButtonState(int buttonId) {
+   if (buttonId < 0 || buttonId >= numButtons) return false;
+
+    return buttons.at(buttonId).currentState;
+}
+
+bool Joystick::getButtonPressed(int buttonId) {
+    if (buttonId < 0 || buttonId >= numButtons) return false;
+
+    ButtonState button = buttons.at(buttonId);
+    return (!button.lastState && button.currentState);
+}
+
+bool Joystick::getButtonReleased(int buttonId) {
+    if (buttonId < 0 || buttonId >= numButtons) return false;
+
+    ButtonState button = buttons.at(buttonId);
+    return (button.lastState && !button.currentState);
+}
+
+qint32 Joystick::getAxis(int axisId) {
+    if (axisId < 0 || axisId >= numAxes) return 0;
+    if (axes.at(axisId) > 0) {
+        return (1000 * (axes.at(axisId) + axesZero.at(axisId))) / (INT_16_MAX + axesZero.at(axisId));
+    } else {
+        return (1000 * (axes.at(axisId) + axesZero.at(axisId))) / (INT_16_MIN - axesZero.at(axisId));
+    }
+}
+
+void Joystick::update() {
+    SDL_JoystickUpdate();
+
+    for (int i = 0; i < numButtons; i++) {
+        ButtonState state;
+        state.lastState = buttons.at(i).currentState;
+        state.currentState = SDL_JoystickGetButton(sdlJoystick, i);
+
+        buttons[i] = state;
+    }
+
+    for (int i = 0; i < numAxes; i++) {
+        qint16 axisValue = SDL_JoystickGetAxis(sdlJoystick, i);
+        axes[i] = axisValue;
+    }
+}

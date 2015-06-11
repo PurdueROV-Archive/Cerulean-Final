@@ -14,6 +14,12 @@ void Model::init(Controller* controller) {
     QObject::connect(this->controller, &Controller::modelSelectSerial,
                      this, &Model::selectSerial);
 
+    QObject::connect(this->controller, &Controller::modelJoystick1Select,
+                     this, &Model::selectJoystick1);
+
+    QObject::connect(this->controller, &Controller::modelJoystick2Select,
+                     this, &Model::selectJoystick2);
+
     QObject::connect(this->controller, &Controller::modelStart,
                      this, &Model::start);
 
@@ -23,13 +29,17 @@ void Model::init(Controller* controller) {
     serial = new Serial();
     controller->modelSetSerialDevices(serial->serialDevices());
 
+    if (SdlWrap::init() == false) {
+        qDebug() << SdlWrap::getError();
+    }
+
+    controller->modelSetJoystickDevices(SdlWrap::getJoystickList());
+
     joystick1 = new Joystick();
     joystick2 = new Joystick();
 
-    controller->modelSetJoystickDevices(joystick1->joystickList());
-
     qThread = new QThread(this);
-    mainThread = new MainThread(serial);
+    mainThread = new MainThread(serial, joystick1, joystick2);
 }
 
 Model::~Model() {
@@ -41,11 +51,19 @@ Model::~Model() {
 
 void Model::refreshList() {
     controller->modelSetSerialDevices(serial->serialDevices());
-    controller->modelSetJoystickDevices(joystick1->joystickList());
+    controller->modelSetJoystickDevices(SdlWrap::getJoystickList());
 }
 
 void Model::selectSerial(int index) {
     serial->select(index);
+}
+
+void Model::selectJoystick1(int index) {
+    joystick1->select(index);
+}
+
+void Model::selectJoystick2(int index) {
+    joystick2->select(index);
 }
 
 void Model::start() {

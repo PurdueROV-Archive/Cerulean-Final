@@ -87,6 +87,7 @@ void ControlPacket::setVStepper(bool upDirection, quint8 value) {
         return;
     }
 
+    vStepperAmount = value;
     vStepperUpDirection = upDirection;
 
 }
@@ -97,6 +98,7 @@ void ControlPacket::setHStepper(bool rightDirection, quint8 value) {
         return;
     }
 
+    hStepperAmount = value;
     hStepperRightDirection = rightDirection;
 }
 
@@ -155,7 +157,6 @@ quint8 ControlPacket::crc(QByteArray data) {
 
 void ControlPacket::assemblePacket() {
     data[0] = HEADER;
-    data[1] = CONTROL;
 
     for (int i = 0; i < THRUSTER_COUNT; i++) {
         data[THRUSTER_BYTE_START+i] = thrusterValues[i];
@@ -171,6 +172,7 @@ void ControlPacket::assemblePacket() {
         data[LED_START+i] = ledValues[i];
     }
 
+    data[PACKET_SIZE-3] = CONTROL;
     data[PACKET_SIZE-2] = CRC_BYTE;
     data[PACKET_SIZE-1] = TAIL;
 
@@ -184,8 +186,8 @@ QByteArray ControlPacket::getPacket() {
 
 void ControlPacket::reset() {
     data[0] = HEADER;
-    data[1] = CONTROL;
 
+    data[PACKET_SIZE-3] = CONTROL;
     data[PACKET_SIZE-2] = CRC_BYTE;
     data[PACKET_SIZE-1] = TAIL;
 

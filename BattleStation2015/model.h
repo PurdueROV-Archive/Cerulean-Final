@@ -38,6 +38,8 @@ private:
 public slots:
     void refreshList();
     void selectSerial(int index);
+    void selectJoystick1(int index);
+    void selectJoystick2(int index);
     void start();
     void stop();
 
