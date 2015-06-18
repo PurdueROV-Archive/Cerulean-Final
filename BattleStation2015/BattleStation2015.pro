@@ -41,11 +41,11 @@ win32 {
 #}
 
 
-#macx {
-#    INCLUDEPATH += $$PWD/SDL/include
-#    INCLUDEPATH += -F/Library/Frameworks
-#    QMAKE_LFLAGS += -F/Library/Frameworks/ -framework SDL2
-#}
+macx {
+    INCLUDEPATH += $$PWD/SDL/include
+    INCLUDEPATH += -F/Library/Frameworks
+    QMAKE_LFLAGS += -F/Library/Frameworks/ -framework SDL2
+}
 
 HEADERS += \
     controller.h \

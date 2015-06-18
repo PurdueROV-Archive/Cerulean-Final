@@ -10,10 +10,8 @@ Rectangle {
         hoverEnabled: true
         propagateComposedEvents: true
 
-        //onPressed: mouse.accepted = false;
-
         onPressed: {
-            //mouse.accepted = false
+
             if (!animation.running) {
                 woop.size = 0
                 woop.opacity = 0.4

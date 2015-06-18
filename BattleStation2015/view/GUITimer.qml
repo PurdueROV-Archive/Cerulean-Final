@@ -51,7 +51,7 @@ ROVBox {
             id: startBtn
             height: 70
             width: 150
-            text: qsTr("START")
+            text: "Start"
             anchors.left: parent.left
             anchors.leftMargin: 30
             anchors.verticalCenter: parent.verticalCenter
@@ -66,11 +66,11 @@ ROVBox {
                         timerTrigger.stop();
                         resetBtn.enabled = true;
                         delta = (new Date).getTime() - startTime;
-                        startBtn.text = "RESUME";
+                        startBtn.text = "Resume";
                     } else {
                         timerTrigger.running = true;
                         resetBtn.enabled = false;
-                        startBtn.text = "PAUSE";
+                        startBtn.text = "Pause";
                         if (startTime == 0) {
                             startTime = (new Date).getTime();
                         } else {
@@ -86,7 +86,7 @@ ROVBox {
             id: resetBtn
             height: 70
             width: 150
-            text: qsTr("RESET")
+            text: "Reset"
             anchors.right: parent.right
             anchors.rightMargin: 30
             anchors.verticalCenter: parent.verticalCenter
@@ -100,7 +100,7 @@ ROVBox {
                     if (!timerTrigger.running) {
                         timerTrigger.running = false;
                         resetBtn.enabled = false;
-                        startBtn.text = "START";
+                        startBtn.text = "Start";
                         timer.text = "00:00";
                         timer.color = mainColor;
                         startTime = 0;

@@ -10,19 +10,21 @@ Button {
     style: ButtonStyle {
         background: Rectangle {
             border.width: (rovButton.enabled) ? ((control.hovered || control.pressed) ? 2 : 1) : 1;
-            color: (rovButton.enabled) ? ((control.hovered || control.pressed) ? "#111111" : "#00000000") : "#00000000"
+            color: (rovButton.enabled) ? ((control.hovered || control.pressed) ? "#222222" : "#111111") : "#111111"
             radius: 0
-            border.color: (rovButton.enabled) ? mainColor : "#0C253B"
+            border.color: mainColor
+            opacity: rovButton.enabled ? 1.0 : 0.5
             implicitWidth: 70
             implicitHeight: 25
         }
+
         label: Label {
             text: control.text
             verticalAlignment: Text.AlignVCenter
-            color: (rovButton.enabled) ? mainColor : "#0C253B"
+            color: mainColor
+            opacity: rovButton.enabled ? 1.0 : 0.5
             font.bold: true
             font.pixelSize: fontSize
-            font.family: "Arial"
             horizontalAlignment: Text.AlignHCenter
             anchors.verticalCenter: parent.verticalCenter
         }
