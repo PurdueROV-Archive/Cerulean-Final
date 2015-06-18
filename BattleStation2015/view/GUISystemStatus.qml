@@ -14,7 +14,7 @@ ROVBox {
 
     ROVTitle {
         id: sysTitle
-        text: "SYSTEM VIEW"
+        text: "System Status"
     }
 
     Grid {

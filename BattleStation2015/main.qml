@@ -19,7 +19,6 @@ Window {
     title: "Purdue IEEE | ROV " + rovName
     objectName: "mainWindow"
 
-
     Item {
         objectName: "mainGrid"
         id: mainGrid
@@ -30,6 +29,8 @@ Window {
         anchors.margins: 10
         anchors.bottomMargin: 20
         anchors.fill: parent
+
+
 
         //Titles
         Row {
@@ -85,12 +86,66 @@ Window {
 
 
         //Left Column
-        ROVView.LeftColumn{}
+        Column {
+            id: leftColumn
+
+            width: mainGrid.width/3
+            height: mainGrid.height - mainTitle.height
+            spacing: 20
+
+            anchors.top: titleRow.bottom
+            anchors.left: mainGrid.left
+            anchors.leftMargin: 0
+
+            //Timer Container
+            ROVView.GUITimer {
+                id: timerArea
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: 10
+                height: 110
+            }
+
+            //Mission Tasks
+            ROVView.GUIMissionTasks {}
+        }
 
         //Center Column
-        ROVView.CenterColumn{}
+        Column {
+            id: centerColumn
+
+            width: mainGrid.width/3
+            height: mainGrid.height-mainTitle.height
+            spacing: 20
+
+            anchors.top: titleRow.bottom
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            //System View
+            ROVView.GUISystemStatus {}
+
+            //Thruster Status
+            ROVView.GUIThrusters {}
+        }
 
         //Right Column
-        ROVView.RightColumn{}
+        Column {
+            id: rightColumn
+
+            width: mainGrid.width/3
+            height: mainGrid.height-mainTitle.height
+            spacing: 20
+
+            anchors.top: titleRow.bottom
+            anchors.right: mainGrid.right
+            anchors.rightMargin: 0
+
+            //System Details
+            ROVView.GUIMisc {}
+
+            //Config Details
+            ROVView.GUIConfiguration {}
+        }
     }
 }

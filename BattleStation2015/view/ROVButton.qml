@@ -10,7 +10,7 @@ Button {
     style: ButtonStyle {
         background: Rectangle {
             border.width: (rovButton.enabled) ? ((control.hovered || control.pressed) ? 2 : 1) : 1;
-            color: (rovButton.enabled) ? ((control.hovered || control.pressed) ? "#333333" : "#00000000") : "#00000000"
+            color: (rovButton.enabled) ? ((control.hovered || control.pressed) ? "#111111" : "#00000000") : "#00000000"
             radius: 0
             border.color: (rovButton.enabled) ? mainColor : "#0C253B"
             implicitWidth: 70

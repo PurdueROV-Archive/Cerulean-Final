@@ -4,9 +4,10 @@ import QtQuick.Controls.Styles 1.2
 
 
 CheckBox {
-    x: 10
     id: checkTask
     property int size: (missionTasksTab.width < 550) ? 16 : 20;
+    property int worth: 0
+    property int value: checkTask.checked ? worth : 0
 
 
     style: CheckBoxStyle {

@@ -11,6 +11,7 @@ Item {
     height: 50
 
 
+
     Item {
         id: row
         anchors.right: parent.right
@@ -45,7 +46,6 @@ Item {
         anchors.top: row.bottom
         anchors.topMargin: 25
         onValueChanged: valueText.text = slider.value + "%";
-
 
         style: SliderStyle {
             groove: Item {

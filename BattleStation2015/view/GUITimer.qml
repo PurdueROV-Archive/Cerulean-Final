@@ -7,7 +7,7 @@ ROVBox {
     //Timer Title
     ROVTitle {
         id: timerTitle
-        text: "TIMER"
+        text: "Timer"
     }
 
     //Timer
