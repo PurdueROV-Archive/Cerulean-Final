@@ -20,5 +20,10 @@
         <file>view/GUIMissionTasks.qml</file>
         <file>view/ROVScrollBar.qml</file>
         <file>view/ROVScrollingBox.qml</file>
+        <file>view/ROVCard.qml</file>
+        <file>view/ROVCardTab.qml</file>
+        <file>view/ROVCardTabs.qml</file>
+        <file>view/Roboto.ttf</file>
+        <file>view/Roboto-Bold.ttf</file>
     </qresource>
 </RCC>

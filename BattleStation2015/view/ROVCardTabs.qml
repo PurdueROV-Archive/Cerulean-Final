@@ -4,6 +4,10 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
 
+    id: main
+    property string headerColor
+    property string accent
+
     MouseArea {
         id: ma
         anchors.fill: parent
@@ -11,22 +15,26 @@ Rectangle {
         propagateComposedEvents: true
 
         onPressed: {
+            if (styleData.selected === false) {
+                animation.stop()
+            }
 
             if (!animation.running) {
                 woop.size = 0
-                woop.opacity = 0.4
+                woop.opacity = 0.3
                 woop.mouseX = mouse.x
                 woop.mouseY = mouse.y
                 animation.start()
             }
             mouse.accepted = false
+
+
         }
     }
 
     Rectangle {
         id: rovTab
-        color: (styleData.selected) ? "#222222" : "#111111"
-        radius: 0
+        color: main.headerColor
         width: parent.width
         height: parent.height
     }
@@ -40,10 +48,10 @@ Rectangle {
         width: size
         height: size
         radius: size
-        color: mainColor
+        color: "white"
         x: mouseX-(size/2)
         y: mouseY-(size/2)
-        opacity: 0.4
+        opacity: 0.3
 
         SequentialAnimation {
             id: animation
@@ -57,7 +65,7 @@ Rectangle {
             NumberAnimation {
                 target: woop
                 property: "opacity"
-                from: 0.4
+                from: 0.3
                 to: 0.0
                 duration: 700
             }
@@ -70,16 +78,17 @@ Rectangle {
         anchors.centerIn: parent
         text: styleData.title
         color: "white"
-        font.family: (styleData.selected) ? robotoBold.name : roboto.name
+        font.bold: styleData.selected
+        font.family: roboto.name
         font.pixelSize: 12
         z: 2
     }
 
     Rectangle {
         width: parent.width
-        height: 2
+        height: 3
         anchors.bottom: parent.bottom
-        opacity: styleData.selected ? 1.0 : (ma.containsMouse ? 1.0 :  0.5)
-        color: mainColor
+        opacity: styleData.selected ? 1.0 : (ma.containsMouse ? 0.5 :  0)
+        color: main.accent
     }
 }

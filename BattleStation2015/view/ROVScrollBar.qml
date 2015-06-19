@@ -15,6 +15,17 @@ Item {
     clip: true
     visible: flick.visible
 
+    MouseArea {
+        anchors.fill: parent
+        onWheel: {
+            if (wheel.angleDelta.y > 0) {
+                flick.flick(0, 800)
+            } else if (wheel.angleDelta.y < 0) {
+                flick.flick(0, -800)
+            }
+        }
+    }
+
     Rectangle {
         id: bar
         clip: true
@@ -23,7 +34,6 @@ Item {
         height: flick.visibleArea.heightRatio * flick.height
         visible: flick.visibleArea.heightRatio < 1.0
         radius: 10
-        color: "gray"
 
         opacity: ma.pressed ? 1 : ma.containsMouse ? 0.65 : 0.4
         Behavior on opacity {NumberAnimation{duration: 150}}

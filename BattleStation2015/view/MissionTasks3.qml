@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.0
 
 Item {
     anchors.fill: parent
+    anchors.margins: 15
 
     ROVScrollingBox {
         id: taskList
@@ -13,7 +14,6 @@ Item {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: points.top
-        anchors.margins: 10
 
         clip: true
 
@@ -89,8 +89,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.margins: 10
-        anchors.bottomMargin: 50
+        verticalAlignment: Text.AlignBottom
 
         font.bold: true
         font.pixelSize: 20

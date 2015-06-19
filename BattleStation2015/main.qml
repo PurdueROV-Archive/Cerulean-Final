@@ -9,15 +9,29 @@ import "view" as ROVView
 Window {
     property string rovName: "Cerulean"
     property string cerulean: "#6D9BC3"
-    property string mainColor: cerulean
+    property string teal:     "#00BCD4"
+    property string amber:    "#FFC107"
+    property string mainColor: "#0097A7"
+    property string mainAccent: amber
+
     id: mainWindow
     visible: true
     width: 1920
     height: 1010
     //visibility: "Maximized"
-    color: "#111111"
+    color: "#303030"
     title: "Purdue IEEE | ROV " + rovName
     objectName: "mainWindow"
+
+    FontLoader {
+        id: roboto
+        source: "qrc:/view/Roboto.ttf"
+    }
+
+    FontLoader {
+        id: robotoBold
+        source: "qrc:/view/Roboto-Bold.ttf"
+    }
 
     Item {
         objectName: "mainGrid"
@@ -50,7 +64,7 @@ Window {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 font.bold: true
-                font.family: "Arial"
+                font.family: robotoBold.name
                 font.pixelSize: 28
             }
 
@@ -64,7 +78,7 @@ Window {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.bold: true
-                font.family: "Arial"
+                font.family: robotoBold.name
                 font.pixelSize: 46
             }
 
@@ -79,7 +93,7 @@ Window {
                 horizontalAlignment: Text.AlignRight
                 font.italic: true
                 font.bold: true
-                font.family: "Arial"
+                font.family: robotoBold.name
                 font.pixelSize: 28
             }
         }
@@ -98,13 +112,7 @@ Window {
             anchors.leftMargin: 0
 
             //Timer Container
-            ROVView.GUITimer {
-                id: timerArea
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 10
-                height: 110
-            }
+            ROVView.GUITimer {}
 
             //Mission Tasks
             ROVView.GUIMissionTasks {}

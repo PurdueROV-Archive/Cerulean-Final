@@ -5,10 +5,9 @@ import QtQuick.Controls.Styles 1.2
 
 CheckBox {
     id: checkTask
-    property int size: (missionTasksTab.width < 550) ? 16 : 20;
+    property int size: (parent.width < 550) ? 16 : 20;
     property int worth: 0
     property int value: checkTask.checked ? worth : 0
-
 
     style: CheckBoxStyle {
 
@@ -25,7 +24,6 @@ CheckBox {
                 anchors.fill: parent
             }
         }
-
 
         label: Text {
             id: taskLabel

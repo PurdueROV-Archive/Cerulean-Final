@@ -31,10 +31,10 @@ Row {
 
         flick: flickable
 
-        radius: 20
+        radius: 2
         basicWidth: 10
         expandedWidth: 15
-        color: "grey"
+        color: "#424242"
     }
 
 }

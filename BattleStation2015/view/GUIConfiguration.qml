@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Styles 1.0
 
-ROVBox {
+ROVCard {
     id: configuration
     anchors.left: parent.left
     anchors.right: parent.right
@@ -11,9 +11,8 @@ ROVBox {
 
     height: (parent.height/2) - 10
 
-    ROVTitle {
-        text: "Configuration"
-    }
+    title: "Configuration"
+    headerColor: mainColor
 
     //Serial and Controller Config
     Column {
@@ -21,7 +20,7 @@ ROVBox {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.margins: 20
+
         spacing: 10
 
         Label {
@@ -116,6 +115,7 @@ ROVBox {
                 width: 150
 
                 text: (!controller.Running) ? "Connect" : "Stop"
+                enabled: (serialCombo.count > 0 && serialCombo.currentIndex >= 0 && joystick1Combo.count > 0 && joystick1Combo.currentIndex >= 0)
                 fontSize: 20
                 onClicked: {
                     if (joystick1Combo.count > 0 && joystick1Combo.currentIndex >= 0)
