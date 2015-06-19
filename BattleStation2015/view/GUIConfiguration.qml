@@ -59,11 +59,9 @@ ROVCard {
             anchors.right: parent.right;
             model: controller.JoystickDevices
             enabled: !controller.Running
-            onModelChanged: if (count == 0) currentIndex = -1;
+            onModelChanged: if (count == 1) currentIndex = 0;
             onCurrentIndexChanged: {
-                controller.Joystick1Select(currentIndex)
-                if (joystick2Combo.currentIndex == currentIndex && joystick2Combo.currentIndex != -1)
-                    joystick2Combo.currentIndex = -1;
+                controller.Joystick1Select(currentIndex-1)
             }
         }
 
@@ -83,11 +81,9 @@ ROVCard {
             anchors.right: parent.right
             model: controller.JoystickDevices
             enabled: !controller.Running
-            onModelChanged: if (count == 0) currentIndex = -1;
+            onModelChanged: if (count == 1) currentIndex = 0;
             onCurrentIndexChanged: {
-                controller.Joystick2Select(currentIndex)
-                if (joystick1Combo.currentIndex == currentIndex && joystick1Combo.currentIndex != -1)
-                    joystick1Combo.currentIndex = -1;
+                controller.Joystick2Select(currentIndex-1)
             }
          }
 
@@ -115,7 +111,7 @@ ROVCard {
                 width: 150
 
                 text: (!controller.Running) ? "Connect" : "Stop"
-                enabled: (serialCombo.count > 0 && serialCombo.currentIndex >= 0 && joystick1Combo.count > 0 && joystick1Combo.currentIndex >= 0)
+                enabled: (serialCombo.count > 0 && serialCombo.currentIndex >= 0 && joystick1Combo.count > 1 && joystick1Combo.currentIndex >= 1)
                 fontSize: 20
                 onClicked: {
                     if (joystick1Combo.count > 0 && joystick1Combo.currentIndex >= 0)
@@ -124,6 +120,4 @@ ROVCard {
             }
         }
     }
-
-
 }
