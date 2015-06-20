@@ -11,7 +11,7 @@ Window {
     property string cerulean: "#6D9BC3"
     property string teal:     "#00BCD4"
     property string amber:    "#FFC107"
-    property string mainColor: "#0097A7"
+    property string mainColor: teal
     property string mainAccent: amber
 
     id: mainWindow
