@@ -19,7 +19,7 @@ Window {
     width: 1920
     height: 1010
     //visibility: "Maximized"
-    color: "#303030"
+    color: "#151515"
     title: "Purdue IEEE | ROV " + rovName
     objectName: "mainWindow"
 

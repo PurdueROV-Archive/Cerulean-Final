@@ -58,6 +58,7 @@ Rectangle {
             NumberAnimation {
                 target: woop
                 property: "size"
+                easing.type: Easing.InQuad
                 from: 0
                 to: woop.max
                 duration: 400

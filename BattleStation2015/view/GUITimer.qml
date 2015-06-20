@@ -53,26 +53,20 @@ Item {
                 anchors.leftMargin: 30
                 anchors.verticalCenter: parent.verticalCenter
                 enabled: true
-                MouseArea {
-                    id: startButton
-                    height: startBtn.height
-                    width: startBtn.width
-                    anchors.fill: parent
-                    onClicked: {
-                        if (timerTrigger.running) {
-                            timerTrigger.stop();
-                            resetBtn.enabled = true;
-                            delta = (new Date).getTime() - startTime;
-                            startBtn.text = "Resume";
+                onClicked: {
+                    if (timerTrigger.running) {
+                        timerTrigger.stop();
+                        resetBtn.enabled = true;
+                        delta = (new Date).getTime() - startTime;
+                        startBtn.text = "Resume";
+                    } else {
+                        timerTrigger.running = true;
+                        resetBtn.enabled = false;
+                        startBtn.text = "Pause";
+                        if (startTime == 0) {
+                            startTime = (new Date).getTime();
                         } else {
-                            timerTrigger.running = true;
-                            resetBtn.enabled = false;
-                            startBtn.text = "Pause";
-                            if (startTime == 0) {
-                                startTime = (new Date).getTime();
-                            } else {
-                                startTime = (new Date).getTime() - delta;
-                            }
+                            startTime = (new Date).getTime() - delta;
                         }
                     }
                 }
@@ -88,20 +82,14 @@ Item {
                 anchors.rightMargin: 30
                 anchors.verticalCenter: parent.verticalCenter
                 enabled: false
-                MouseArea {
-                    id: resetButton
-                    height: resetBtn.height
-                    width: resetBtn.width
-                    anchors.fill: parent
-                    onClicked: {
-                        if (!timerTrigger.running) {
-                            timerTrigger.running = false;
-                            resetBtn.enabled = false;
-                            startBtn.text = "Start";
-                            timer.text = "00:00";
-                            timer.color = mainColor;
-                            startTime = 0;
-                        }
+                onClicked: {
+                    if (!timerTrigger.running) {
+                        timerTrigger.running = false;
+                        resetBtn.enabled = false;
+                        startBtn.text = "Start";
+                        timer.text = "00:00";
+                        timer.color = mainColor;
+                        startTime = 0;
                     }
                 }
             }
