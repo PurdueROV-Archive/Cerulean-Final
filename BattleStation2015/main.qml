@@ -33,70 +33,108 @@ Window {
         source: "qrc:/view/Roboto-Bold.ttf"
     }
 
+    Rectangle {
+        id: actionBar
+        height: 60
+        width: mainWindow.width
+        color: mainColor
+
+        Text {
+            x: 20
+            height: actionBar.height
+            font.family: roboto.name
+            font.pixelSize: 30
+
+            color: "white"
+            verticalAlignment: Text.AlignVCenter
+
+            text: "International Big BlueBotix's BattleStation | ROV Cerulean"
+        }
+
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: actionBar.bottom
+            height: 20
+            gradient: Gradient {
+                 GradientStop { position: 0.0; color: "#33000000" }
+                 GradientStop { position: 1.0; color: "#00000000" }
+             }
+        }
+    }
+
     Item {
         objectName: "mainGrid"
         id: mainGrid
-        width: parent.height
-        height: parent.width
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: actionBar.bottom
+
+        anchors.margins: 10
+        anchors.topMargin: 20
+        anchors.bottomMargin: 20
+
         clip: true
         transformOrigin: Item.TopLeft
-        anchors.margins: 10
-        anchors.bottomMargin: 20
-        anchors.fill: parent
 
 
 
-        //Titles
-        Row {
-            id: titleRow
-            width: mainGrid.width - 40
-            height: 60
-            anchors.horizontalCenterOffset: 0
-            anchors.horizontalCenter: parent.horizontalCenter
 
-            //Purdue IEEE
-            Text {
-                id: purdueTitle
-                width: parent.width/3
-                height: titleRow.height
-                color: mainColor
-                text: "PURDUE IEEE IBBB"
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                font.bold: true
-                font.family: robotoBold.name
-                font.pixelSize: 28
-            }
 
-            //Battlestation Title
-            Text {
-                id: mainTitle
-                width: parent.width/3
-                height: titleRow.height
-                color: mainColor
-                text: "BATTLESTATION"
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.bold: true
-                font.family: robotoBold.name
-                font.pixelSize: 46
-            }
 
-            //ROV Name
-            Text {
-                id: rovTitle
-                width: parent.width/3
-                height: titleRow.height
-                color: mainColor
-                text: "ROV " + rovName
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignRight
-                font.italic: true
-                font.bold: true
-                font.family: robotoBold.name
-                font.pixelSize: 28
-            }
-        }
+//        //Titles
+//        Row {
+//            id: titleRow
+//            width: mainGrid.width - 40
+//            height: 60
+//            anchors.horizontalCenterOffset: 0
+//            anchors.horizontalCenter: parent.horizontalCenter
+
+//            //Purdue IEEE
+//            Text {
+//                id: purdueTitle
+//                width: parent.width/3
+//                height: titleRow.height
+//                color: mainColor
+//                text: "PURDUE IEEE IBBB"
+//                verticalAlignment: Text.AlignVCenter
+//                horizontalAlignment: Text.AlignLeft
+//                font.bold: true
+//                font.family: robotoBold.name
+//                font.pixelSize: 28
+//            }
+
+//            //Battlestation Title
+//            Text {
+//                id: mainTitle
+//                width: parent.width/3
+//                height: titleRow.height
+//                color: mainColor
+//                text: "BATTLESTATION"
+//                verticalAlignment: Text.AlignVCenter
+//                horizontalAlignment: Text.AlignHCenter
+//                font.bold: true
+//                font.family: robotoBold.name
+//                font.pixelSize: 46
+//            }
+
+//            //ROV Name
+//            Text {
+//                id: rovTitle
+//                width: parent.width/3
+//                height: titleRow.height
+//                color: mainColor
+//                text: "ROV " + rovName
+//                verticalAlignment: Text.AlignVCenter
+//                horizontalAlignment: Text.AlignRight
+//                font.italic: true
+//                font.bold: true
+//                font.family: robotoBold.name
+//                font.pixelSize: 28
+//            }
+//        }
 
 
         //Left Column
@@ -104,10 +142,10 @@ Window {
             id: leftColumn
 
             width: mainGrid.width/3
-            height: mainGrid.height - mainTitle.height
+            height: mainGrid.height
             spacing: 20
 
-            anchors.top: titleRow.bottom
+            anchors.top: mainGrid.top
             anchors.left: mainGrid.left
             anchors.leftMargin: 0
 
@@ -123,10 +161,10 @@ Window {
             id: centerColumn
 
             width: mainGrid.width/3
-            height: mainGrid.height-mainTitle.height
+            height: mainGrid.height
             spacing: 20
 
-            anchors.top: titleRow.bottom
+            anchors.top: mainGrid.top
             anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -142,10 +180,10 @@ Window {
             id: rightColumn
 
             width: mainGrid.width/3
-            height: mainGrid.height-mainTitle.height
+            height: mainGrid.height
             spacing: 20
 
-            anchors.top: titleRow.bottom
+            anchors.top: mainGrid.top
             anchors.right: mainGrid.right
             anchors.rightMargin: 0
 

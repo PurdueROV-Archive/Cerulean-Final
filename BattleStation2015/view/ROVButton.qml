@@ -58,7 +58,6 @@ Item {
                     duration: 700
                 }
             }
-
         }
 
     }

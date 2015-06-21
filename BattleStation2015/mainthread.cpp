@@ -24,6 +24,7 @@ bool MainThread::start() {
     if (serial->connect()) {
         qDebug() << "Serial connected!";
      } else {
+        qDebug() << "No serial?";
         return false;
     }
 

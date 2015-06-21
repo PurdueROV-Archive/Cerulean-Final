@@ -16,7 +16,9 @@ Item {
     visible: flick.visible
 
     MouseArea {
+        id: scrollbarMA
         anchors.fill: parent
+        hoverEnabled: true
         onWheel: {
             if (wheel.angleDelta.y > 0) {
                 flick.flick(0, 800)
@@ -42,7 +44,7 @@ Item {
             target: bar
             property: "width"
             value: expandedWidth
-            when: ma.drag.active || ma.containsMouse
+            when: ma.drag.active || ma.containsMouse || scrollbarMA.containsMouse
         }
         Behavior on width {NumberAnimation {duration: 150}}
 
@@ -68,7 +70,7 @@ Item {
             drag.axis: Drag.YAxis
             drag.minimumY: 0
             drag.maximumY: flick.height - bar.height
-            preventStealing: true
+            //preventStealing: true
         }
     }
 }

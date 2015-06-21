@@ -15,6 +15,8 @@ QStringList Serial::serialDevices() {
     serialDevicesList.clear();
     serialDeviceInfo.clear();
 
+    serialDevicesList.append("");
+
     QList<QSerialPortInfo> serialPortInfo = QSerialPortInfo::availablePorts();
 
     foreach(const QSerialPortInfo &info, serialPortInfo){

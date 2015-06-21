@@ -25,5 +25,7 @@
         <file>view/ROVCardTabs.qml</file>
         <file>view/Roboto.ttf</file>
         <file>view/Roboto-Bold.ttf</file>
+        <file>view/ROVRadio.qml</file>
+        <file>view/ROVCheckBox.qml</file>
     </qresource>
 </RCC>

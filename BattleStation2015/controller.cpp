@@ -51,6 +51,7 @@ QStringList Controller::SerialDevices() const {
 
 //Select a device
 void Controller::SerialSelect(int index) {
+    if (index < 0) return;
     this->index = index;
     emit modelSelectSerial(this->index);
 }

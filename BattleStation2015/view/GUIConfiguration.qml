@@ -39,7 +39,8 @@ ROVCard {
             anchors.right: parent.right
             model: controller.SerialDevices
             enabled: !controller.Running
-            onCurrentIndexChanged: controller.SerialSelect(currentIndex)
+            onModelChanged: if (count == 1) currentIndex = 0;
+            onCurrentIndexChanged: controller.SerialSelect(currentIndex-1)
         }
 
         Label {
@@ -60,9 +61,7 @@ ROVCard {
             model: controller.JoystickDevices
             enabled: !controller.Running
             onModelChanged: if (count == 1) currentIndex = 0;
-            onCurrentIndexChanged: {
-                controller.Joystick1Select(currentIndex-1)
-            }
+            onCurrentIndexChanged: controller.Joystick1Select(currentIndex-1)
         }
 
         Label {
@@ -82,9 +81,7 @@ ROVCard {
             model: controller.JoystickDevices
             enabled: !controller.Running
             onModelChanged: if (count == 1) currentIndex = 0;
-            onCurrentIndexChanged: {
-                controller.Joystick2Select(currentIndex-1)
-            }
+            onCurrentIndexChanged: controller.Joystick2Select(currentIndex-1)
          }
 
 
@@ -111,10 +108,10 @@ ROVCard {
                 width: 150
 
                 text: (!controller.Running) ? "Connect" : "Stop"
-                enabled: (serialCombo.count > 0 && serialCombo.currentIndex >= 0 && joystick1Combo.count > 1 && joystick1Combo.currentIndex >= 1)
+                enabled: (serialCombo.count > 1 && serialCombo.currentIndex >= 1 && joystick1Combo.count > 1 && joystick1Combo.currentIndex >= 1)
                 fontSize: 20
                 onClicked: {
-                    if (joystick1Combo.count > 0 && joystick1Combo.currentIndex >= 0)
+                    if (serialCombo.count > 1 && serialCombo.currentIndex >= 1 && joystick1Combo.count > 1 && joystick1Combo.currentIndex >= 1)
                         controller.Running = !controller.Running
                 }
             }

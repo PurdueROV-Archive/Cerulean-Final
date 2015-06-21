@@ -5,9 +5,7 @@ import QtQuick.Controls.Styles 1.2
 
 CheckBox {
     id: checkTask
-    property int size: (parent.width < 550) ? 16 : 20;
-    property int worth: 0
-    property int value: checkTask.checked ? worth : 0
+    property int size
 
     style: CheckBoxStyle {
 
@@ -42,11 +40,9 @@ CheckBox {
 
         label: Text {
             id: taskLabel
-            color: checkTask.checked ? "#666666" : "#ffffff"
+            color: "white"
             font.pixelSize: size
-            font.strikeout: checkTask.checked
             text: checkTask.text
-            font.bold: !checkTask.checked
             x: 5
         }
     }

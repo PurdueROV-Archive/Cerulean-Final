@@ -52,6 +52,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.top: header.bottom
         anchors.margins: 15
+        clip: true
     }
 
     Rectangle {

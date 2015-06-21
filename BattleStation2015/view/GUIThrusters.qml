@@ -23,6 +23,7 @@ ROVCardTab {
             anchors.margins: 15
 
             Grid {
+                id: horizontalThrusters
                 width: 280
                 height: 280
                 anchors.verticalCenter: parent.verticalCenter
@@ -32,28 +33,24 @@ ROVCardTab {
                 rows: 2
                 spacing: 100
                 ROVThruster {
-                    objectName: "t7";
                     orientation: "horizontal";
                     rotation: 23;
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t2";
                     orientation: "horizontal";
                     rotation: -23;
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t5";
                     orientation: "horizontal";
                     rotation: 157;
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t4";
                     orientation: "horizontal";
                     rotation: 203;
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
 
             }
@@ -68,26 +65,119 @@ ROVCardTab {
                 rows: 2
                 spacing: 2
                 ROVThruster {
-                    objectName: "t8";
                     orientation: "vertical";
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t9";
                     orientation: "vertical";
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t9";
                     orientation: "vertical";
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
                 ROVThruster {
-                    objectName: "t3";
                     orientation: "vertical";
-                    value: qsTr("N/A")
+                    value: "N/A"
                 }
             }
+
+            //Horizontal Status
+            Column {
+                spacing: 25
+                anchors.left: parent.left
+                anchors.right: horizontalThrusters.left
+                clip: true
+
+                Text {
+                    text: "H Status"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                }
+
+                Text {
+                    text: "Front Left:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                }
+
+                Text {
+                    text: "Front Right:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                }
+
+                Text {
+                    text: "Back Left:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                }
+
+                Text {
+                    text: "Back Right:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                }
+            }
+
+            //Horizontal Status
+            Column {
+                spacing: 25
+                anchors.left: horizontalThrusters.right
+                anchors.right: parent.right
+                clip: true
+
+                Text {
+                    text: "V Status"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                    width: parent.width
+                    horizontalAlignment: Text.AlignRight
+                }
+
+                Text {
+                    text: "Front Left:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                    width: parent.width
+                    horizontalAlignment: Text.AlignRight
+                }
+
+                Text {
+                    text: "Front Right:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                    width: parent.width
+                    horizontalAlignment: Text.AlignRight
+                }
+
+                Text {
+                    text: "Back Left:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                    width: parent.width
+                    horizontalAlignment: Text.AlignRight
+                }
+
+                Text {
+                    text: "Back Right:\n" + "Good"
+                    font.family: roboto.name
+                    color: "white"
+                    font.pixelSize: 20
+                    width: parent.width
+                    horizontalAlignment: Text.AlignRight
+                }
+            }
+
         }
 
     }
@@ -127,7 +217,7 @@ ROVCardTab {
 
     //Ind Toggles
     Tab {
-        title: "Indvidual Control"
+        title: "Individual Control"
 
         ROVScrollingBox {
             anchors.fill: parent

@@ -13,7 +13,7 @@ Item {
     //Timer
     Timer {
         id: timerTrigger
-        interval:500
+        interval:200
         running:false
         repeat: true
         onTriggered: {
@@ -110,7 +110,7 @@ Item {
                 font.family: "Arial"
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 56
+                font.pixelSize: 50
             }
     }
 }
