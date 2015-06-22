@@ -61,7 +61,8 @@ void MainThread::stop() {
 void MainThread::tick() {
 
     qint64 now = QDateTime::currentMSecsSinceEpoch();
-    //qDebug() << (now - lastTime);
+    qDebug() << now-lastTime;
+
     lastTime = now;
 
     if (serial && joystick1->isConnected()) {
@@ -212,6 +213,10 @@ void MainThread::tick() {
         Thruster::normalize(horizontalThrusters, 4);
         Thruster::normalize(verticalThrusters, 4);
 
+//        qDebug("[1]: %d, [2]: %d, [3]: %d, [4]: %d\n[5]: %d, [6]: %d, [7]: %d, [8]: %d",
+//               horizontalThrusters[0], horizontalThrusters[1], horizontalThrusters[2], horizontalThrusters[3],
+//                verticalThrusters[0], verticalThrusters[1], verticalThrusters[2], verticalThrusters[3]);
+
         for (int i = 0; i < 8; ++i) {
             cPacket->setThruster(i+1, Thruster::convert(thrusters[i]));
         }
@@ -222,7 +227,7 @@ void MainThread::tick() {
 
 
 
-        cPacket->print();
+        //cPacket->print();
         serial->write(cPacket->getPacket());
         delete cPacket;
 

@@ -15,7 +15,7 @@ void Thruster::normalize(int values[], int size) {
         //Normalize the values based off max
         float n = ((float) max) / ((float) valuesMax);
         for (int i = 0; i < size; i++) {
-            values[i] = (qint32) (n * values[i]);
+            values[i] = (int) (n * values[i]);
         }
     }
 }

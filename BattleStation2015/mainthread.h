@@ -13,7 +13,7 @@
 #include <QTimer>
 
 //Tick Interval: 10ms (100Hz)
-#define TICK_INTERVAL 100
+#define TICK_INTERVAL 10
 
 class MainThread : public QObject
 {
