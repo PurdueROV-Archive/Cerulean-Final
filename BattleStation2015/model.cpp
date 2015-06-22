@@ -5,8 +5,8 @@ Model::Model() : QObject() {
     running = false;
 }
 
-void Model::init(Controller* controller) {
-    this->controller = controller;
+void Model::init() {
+    this->controller = Controller::getInstance();
 
     QObject::connect(this->controller, &Controller::modelRefreshList,
                      this, &Model::refreshList);

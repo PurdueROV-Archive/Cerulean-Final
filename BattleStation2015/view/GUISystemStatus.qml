@@ -21,7 +21,7 @@ ROVCard {
         spacing: 20
 
         Column {
-            spacing: 25
+            spacing: 30
             width: row.width/2 - 10
             clip: true
 
@@ -39,6 +39,12 @@ ROVCard {
                     id: cam1Label
                 }
 
+                property bool currentIndex: controller.CameraSelect1;
+                onCurrentIndexChanged: {
+                    frontCam.checked = !controller.CameraSelect1;
+                    backCam.checked = controller.CameraSelect1;
+                }
+
                 Row {
                     anchors.top: cam1Label.bottom
                     anchors.topMargin: 10
@@ -48,17 +54,26 @@ ROVCard {
                     }
 
                     ROVRadio {
+                        id: frontCam
                         text: "Front"
                         size: 20
-                        checked: true
+                        checked: !controller.CameraSelect1;
                         exclusiveGroup: camSelect1
+                        onClicked: {
+                            controller.CameraSelect1 = false;
+                        }
                     }
 
 
                     ROVRadio {
+                        id: backCam
                         text: "Back"
                         size: 20
+                        checked: controller.CameraSelect1;
                         exclusiveGroup: camSelect1
+                        onClicked: {
+                            controller.CameraSelect1 = true;
+                        }
                     }
                 }
             }
@@ -68,20 +83,20 @@ ROVCard {
                 height: 60
                 width: parent.width
                 Text {
-                    text: "Foot Turner"
+                    text: "Valve Turner"
                     font.family: roboto.name
                     color: "white"
                     font.pixelSize: 20
 
-                    id: footTurnerLabel
+                    id: valveTurnerLabel
                 }
 
                 ROVCheckBox {
-                    anchors.top: footTurnerLabel.bottom
+                    anchors.top: valveTurnerLabel.bottom
                     anchors.topMargin: 10
                     size: 20
                     checked: false
-                    text: (checked) ? "100% BLAZE IT" : "Off"
+                    text: (checked) ? "100%!!!" : "Off"
                 }
             }
 
@@ -102,8 +117,16 @@ ROVCard {
                     anchors.top: laserLabel.bottom
                     anchors.topMargin: 10
                     size: 20
-                    checked: false
-                    text: (checked) ? "9000! MM!!" : "Off"
+                    checked: controller.LaserEnabled
+                    MouseArea {
+                        anchors.fill: parent
+                        preventStealing: true;
+                        onClicked: {
+                            controller.LaserEnabled = !controller.LaserEnabled
+                        }
+                    }
+
+                    text: (checked) ? controller.LaserDistance + " mm" : "Off"
                 }
             }
 
@@ -128,6 +151,12 @@ ROVCard {
                     id: cam2Label
                 }
 
+                property bool currentIndex: controller.CameraSelect2;
+                onCurrentIndexChanged: {
+                    leftCam.checked = !controller.CameraSelect2;
+                    rightCam.checked = controller.CameraSelect2;
+                }
+
                 Row {
                     anchors.top: cam2Label.bottom
                     anchors.topMargin: 10
@@ -137,17 +166,26 @@ ROVCard {
                     }
 
                     ROVRadio {
+                        id: leftCam
                         text: "Left"
                         size: 20
-                        checked: true
                         exclusiveGroup: camSelect2
+                        checked: !controller.CameraSelect2;
+                        onClicked: {
+                            controller.CameraSelect2 = false;
+                        }
                     }
 
 
                     ROVRadio {
+                        id: rightCam
                         text: "Right"
                         size: 20
                         exclusiveGroup: camSelect2
+                        checked: controller.CameraSelect2;
+                        onClicked: {
+                            controller.CameraSelect2 = true;
+                        }
                     }
                 }
             }
@@ -227,21 +265,21 @@ ROVCard {
 
         height: 100
         width: parent.width
-        Text {
-            text: "Voltage Measurement Detection"
-            font.family: roboto.name
-            color: "white"
-            font.pixelSize: 20
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
+
+        ROVCheckBox {
+            anchors.horizontalCenter: parent.horizontalCenter
 
             id: voltageLabel
+            size: 20
+            checked: false
+            text: "Voltage Measurement Detection"
         }
 
         Row {
             anchors.top: voltageLabel.bottom
-            anchors.topMargin: 20
+            anchors.topMargin: 10
             width: parent.width
+            visible: voltageLabel.checked
 
             Text {
                 text: "Top: " + "High"

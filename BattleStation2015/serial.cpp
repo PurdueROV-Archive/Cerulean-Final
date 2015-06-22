@@ -58,6 +58,7 @@ bool Serial::write(char* byte) {
         device->write(byte);
         return device->flush();
     }
+    return false;
 }
 
 bool Serial::write(QByteArray data) {    
@@ -65,6 +66,7 @@ bool Serial::write(QByteArray data) {
         device->write(data);
         return device->flush();
     }
+    return false;
 }
 
 QByteArray Serial::read() {

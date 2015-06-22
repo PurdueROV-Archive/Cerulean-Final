@@ -40,7 +40,7 @@ ROVCardTab {
                 address: 1
                 id: led1
                 value: 0
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.LEDControlScale(address, value)
                 labeltext: "LED System " + address
             }
 
@@ -48,7 +48,7 @@ ROVCardTab {
                 address: 2
                 id: led2
                 value: 0
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.LEDControlScale(address, value)
                 labeltext: "LED System " + address
             }
 
@@ -56,21 +56,21 @@ ROVCardTab {
                 address: 3
                 id: led3
                 value: 0
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.LEDControlScale(address, value)
                 labeltext: "LED System " + address
             }
             ROVSlider {
                 address: 4
                 id: led4
                 value: 0
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.LEDControlScale(address, value)
                 labeltext: "LED System " + address
             }
             ROVSlider {
                 address: 5
                 id: led5
                 value: 0
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.LEDControlScale(address, value)
                 labeltext: "LED System " + address
             }
 

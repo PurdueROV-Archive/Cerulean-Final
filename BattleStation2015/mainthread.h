@@ -8,10 +8,12 @@
 #include "serial.h"
 #include "controlpacket.h"
 #include "joystick.h"
+#include "controller.h"
+#include "thruster.h"
 #include <QTimer>
 
 //Tick Interval: 10ms (100Hz)
-#define TICK_INTERVAL 1000
+#define TICK_INTERVAL 100
 
 class MainThread : public QObject
 {
@@ -28,10 +30,14 @@ private:
     Joystick* joystick1;
     Joystick* joystick2;
 
+    Controller* controller;
+
     QTimer* threadTimer;
     QThread* mainThread;
 
-    qint64 lastTime;
+    qint64 lastTime = QDateTime::currentMSecsSinceEpoch();
+
+    qint16 homeHeldTime = 0;
 
 public slots:
     void tick();

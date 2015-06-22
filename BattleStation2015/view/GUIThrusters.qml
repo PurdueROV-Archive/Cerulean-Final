@@ -192,24 +192,24 @@ ROVCardTab {
 
             ROVSlider {
                 address: 1
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.ThrusterScaleGroups("horizontoal", value)
                 labeltext: "Horizontal Speed Control:"
             }
 
             ROVSlider {
                 address: 2
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.ThrusterScaleGroups("vertical", value)
                 labeltext: "Vertical Speed Control:"
             }
 
             ROVSlider {
                 address: 3
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.ThrusterScaleGroups("strafe", value)
                 labeltext: "Strafe Speed Control:"
             }
             ROVSlider {
                 address: 4
-                onValueChanged: controller.ThrusterControlScale(address, value)
+                onValueChanged: controller.ThrusterScaleGroups("pitchroll", value)
                 labeltext: "Pitch/Roll Speed Control:"
             }
         }

@@ -21,7 +21,7 @@ public:
     Model();
     ~Model();
 
-    void init(Controller* controller);
+    void init();
 
 private:
     bool running;

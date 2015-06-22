@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Controller* control = new Controller();
+    Controller* control = Controller::getInstance();
     engine.rootContext()->setContextProperty("controller", control);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Sint16>("Sint16");
 
     Model* model = new Model();
-    model->init(control);
+    model->init();
 
     return app.exec();
 }

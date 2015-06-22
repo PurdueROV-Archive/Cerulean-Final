@@ -38,6 +38,7 @@ public:
 
     void setThrusters(Motor** motors);
 
+    void setThruster(int address, quint8 value);
 
     void setFootTurner(Motor* motor);
 
@@ -45,13 +46,13 @@ public:
 
     void setCamMux2(bool camMux2);
 
-    void setBilgePump(bool enabled);
+    void setBilgePump(bool suck, bool push);
 
     void setVoltageMeasurement(bool enabled);
 
     void setLaser(bool enabled);
 
-    void setClaw(bool active, bool opening, bool parallel);
+    void setClaw(bool open, bool close);
 
     void setLEDs(quint8 values[5]);
 
@@ -78,7 +79,8 @@ private:
     bool camMux1;
     bool camMux2;
 
-    bool bilgePump;
+    bool bilgePumpSuck;
+    bool bilgePumpPush;
 
     bool voltageMeasurement;
 
@@ -87,8 +89,6 @@ private:
     bool clawOpening;
     bool clawClosing;
 
-    bool clawParallel;
-
     bool vStepperUpDirection;
     quint8 vStepperAmount;
 
@@ -96,8 +96,6 @@ private:
     quint8 hStepperAmount;
 
     quint8 ledValues[LED_COUNT];
-
-    void setThruster(Motor* motor);
 
     quint8 getToolByte();
 

@@ -9,27 +9,33 @@ ControlPacket::ControlPacket() {
 ControlPacket::~ControlPacket() {
 }
 
-void ControlPacket::setThrusters(Motor** motors) {
-    for (int i = 0; i <THRUSTER_COUNT; i++) {
-        if (motors[i]) {
-            setThruster(motors[i]);
-        }
-    }
+//void ControlPacket::setThrusters(Motor** motors) {
+//    for (int i = 0; i <THRUSTER_COUNT; i++) {
+//        if (motors[i]) {
+//            setThruster(motors[i]);
+//        }
+//    }
+//}
+
+void ControlPacket::setThruster(int address, quint8 value) {
+    if (address < 1 || address > 8) return;
+
+    thrusterValues[address-1] = value;
 }
 
-void ControlPacket::setThruster(Motor* motor) {
-    if (motor == NULL) return;
+//void ControlPacket::setThruster(Motor* motor) {
+//    if (motor == NULL) return;
 
-    quint8 value = (motor->getSpeed() >> 1);
-    if (motor->getDirection()) {
-        value = value & 0x80;
-    }
+//    quint8 value = (motor->getSpeed() >> 1);
+//    if (motor->getDirection()) {
+//        value = value & 0x80;
+//    }
 
-    if (motor->getAddress() >= 1 && motor->getAddress() <= 8) {
-        int index = motor->getAddress() - 1;
-        thrusterValues[index] = value;
-    }
-}
+//    if (motor->getAddress() >= 1 && motor->getAddress() <= 8) {
+//        int index = motor->getAddress() - 1;
+//        thrusterValues[index] = value;
+//    }
+//}
 
 void ControlPacket::setFootTurner(Motor* motor) {
     if (motor == NULL) return;
@@ -43,15 +49,21 @@ void ControlPacket::setFootTurner(Motor* motor) {
 }
 
 void ControlPacket::setCamMux1(bool camMux1) {
-    camMux1 = camMux1;
+    this->camMux1 = camMux1;
 }
 
 void ControlPacket::setCamMux2(bool camMux2) {
-    camMux2 = camMux2;
+    this->camMux2 = camMux2;
 }
 
-void ControlPacket::setBilgePump(bool enabled) {
-    bilgePump = enabled;
+void ControlPacket::setBilgePump(bool suck, bool push) {
+    if ((suck && push) || (!suck && !push)) {
+        bilgePumpSuck = false;
+        bilgePumpPush = false;
+    } else {
+        bilgePumpSuck = suck;
+        bilgePumpPush = push;
+    }
 }
 
 void ControlPacket::setVoltageMeasurement(bool enabled) {
@@ -62,16 +74,13 @@ void ControlPacket::setLaser(bool enabled) {
     laser = enabled;
 }
 
-void ControlPacket::setClaw(bool active, bool opening, bool parallel) {
-    if (active) {
-        clawOpening = opening;
-        clawClosing = !opening;
-
-        clawParallel = parallel;
-    } else {
+void ControlPacket::setClaw(bool open, bool close) {
+    if ((open && close) || (!open && !close)) {
         clawOpening = false;
         clawClosing = false;
-        clawParallel = false;
+    } else {
+        clawOpening = open;
+        clawClosing = close;
     }
 }
 
@@ -105,8 +114,8 @@ void ControlPacket::setHStepper(bool rightDirection, quint8 value) {
 quint8 ControlPacket::getStepperByte() {
     quint8 stepperByte = 0x00;
 
-    if (hStepperRightDirection) stepperByte |= 0b10000000;
-    if (vStepperUpDirection) stepperByte |= 0b00001000;
+    if (hStepperRightDirection) stepperByte |= 0x80;
+    if (vStepperUpDirection) stepperByte |= 0x08;
 
     stepperByte |= (hStepperAmount << 4);
     stepperByte |= (vStepperAmount & 0x0F);
@@ -115,23 +124,17 @@ quint8 ControlPacket::getStepperByte() {
 }
 
 quint8 ControlPacket::getToolByte() {
-    quint8 toolByte = 0b00000000;
+    quint8 toolByte = 0x00;
 
-    if (camMux1) toolByte |= 0b10000000;
+    if (camMux1)            toolByte |= 0x80;
+    if (camMux2)            toolByte |= 0x40;
+    if (clawOpening)        toolByte |= 0x20;
+    if (clawClosing)        toolByte |= 0x10;
+    if (bilgePumpSuck)      toolByte |= 0x08;
+    if (bilgePumpPush)      toolByte |= 0x04;
+    if (voltageMeasurement) toolByte |= 0x02;
+    if (laser)              toolByte |= 0x01;
 
-    if (camMux2) toolByte |= 0b01000000;
-
-    if (bilgePump) toolByte |= 0b00100000;
-
-    if (voltageMeasurement) toolByte |= 0b00010000;
-
-    if (laser) toolByte |= 0b00001000;
-
-    if (clawOpening) toolByte |= 0b00000100;
-
-    if (clawClosing) toolByte |= 0b00000010;
-
-    if (clawParallel) toolByte |= 0b00000001;
 
     return toolByte;
 }
@@ -200,7 +203,8 @@ void ControlPacket::reset() {
     camMux1 = false;
     camMux2 = false;
 
-    bilgePump = false;
+    bilgePumpSuck = false;
+    bilgePumpPush = false;
 
     voltageMeasurement = false;
 
@@ -208,8 +212,6 @@ void ControlPacket::reset() {
 
     clawOpening = false;
     clawClosing = false;
-
-    clawParallel = true;
 
     vStepperUpDirection = true;
     vStepperAmount = 0;
