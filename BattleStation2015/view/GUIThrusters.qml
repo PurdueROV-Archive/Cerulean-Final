@@ -35,22 +35,22 @@ ROVCardTab {
                 ROVThruster {
                     orientation: "horizontal";
                     rotation: 23;
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[0] : "Off"
                 }
                 ROVThruster {
                     orientation: "horizontal";
                     rotation: -23;
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[1] : "Off"
                 }
                 ROVThruster {
                     orientation: "horizontal";
                     rotation: 157;
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[2] : "Off"
                 }
                 ROVThruster {
                     orientation: "horizontal";
                     rotation: 203;
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[3] : "Off"
                 }
 
             }
@@ -66,19 +66,19 @@ ROVCardTab {
                 spacing: 2
                 ROVThruster {
                     orientation: "vertical";
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[4] : "Off"
                 }
                 ROVThruster {
                     orientation: "vertical";
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[5] : "Off"
                 }
                 ROVThruster {
                     orientation: "vertical";
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[6] : "Off"
                 }
                 ROVThruster {
                     orientation: "vertical";
-                    value: "N/A"
+                    value: (controller.Running) ? controller.ThrusterValues[7] : "Off"
                 }
             }
 

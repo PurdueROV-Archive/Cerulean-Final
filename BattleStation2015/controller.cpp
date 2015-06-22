@@ -111,6 +111,10 @@ void Controller::modelSetJoystickDevices(QStringList joystickDevices) {
     emit JoystickDevicesChanged();
 }
 
+QStringList Controller::ThrusterValues() {
+    return thrusterValues;
+}
+
 
 /////////////////////////////////////////
 //          Thruster Control           //
@@ -161,6 +165,16 @@ quint8 Controller::modelGetThrusterGroupScale(QString group) {
 quint8 Controller::modelThrusterScale(int address) {
     if (address < 1 || address > 8) return 100;
     return thrusterControl[address-1];
+}
+
+void Controller::modelSetThrusterValues(int values[]) {
+    thrusterValues.clear();
+    QString val;
+    for (int i = 0; i < 8; i++) {
+       val = QString("%1").arg(values[i]/10);
+       thrusterValues.append(val + "%");
+    }
+    emit ThrusterValuesChanged();
 }
 
 /////////////////////////////////////////

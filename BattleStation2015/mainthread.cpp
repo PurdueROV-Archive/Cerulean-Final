@@ -221,8 +221,10 @@ void MainThread::tick() {
             cPacket->setThruster(i+1, Thruster::convert(thrusters[i]));
         }
 
+        controller->modelSetThrusterValues(thrusters);
 
-        cPacket->print();
+
+        //cPacket->print();
         serial->write(cPacket->getPacket());
         delete cPacket;
 

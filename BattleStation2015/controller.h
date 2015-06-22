@@ -23,6 +23,8 @@ class Controller : public QObject
     Q_PROPERTY(bool LaserEnabled READ LaserEnabled WRITE SetLaserEnabled NOTIFY LaserEnabledChanged)
     Q_PROPERTY(int LaserDistance READ LaserDistance NOTIFY LaserDistanceChanged)
 
+    Q_PROPERTY(QStringList ThrusterValues READ ThrusterValues NOTIFY ThrusterValuesChanged)
+
 
 /////////////////////////////////////////
 // Class & (de)Contsructor Definitions //
@@ -138,16 +140,20 @@ signals:
 /////////////////////////////////////////
 //     Thruster Control Properties     //
 /////////////////////////////////////////
+
 //QML Property Definitions
 public:
     //Read property
+    QStringList ThrusterValues();
 
     //Write Property
 
 private: //Dependencies
+    QStringList thrusterValues = {"Off", "Off", "Off", "Off", "Off", "Off", "Off", "Off"};
 
 
 signals: //Signal to emit on change
+    void ThrusterValuesChanged();
 
 
 //Additional Control Methods
@@ -166,6 +172,7 @@ private: //dependencies
 public:
     quint8 modelGetThrusterGroupScale(QString group);
     quint8 modelThrusterScale(int address);
+    void modelSetThrusterValues(int values[]);
 
 /////////////////////////////////////////
 //      Camera Select Properties       //
