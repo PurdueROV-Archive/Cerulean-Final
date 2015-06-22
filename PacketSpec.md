@@ -49,25 +49,15 @@ Bit # |    Tool   | State (0)  | State (1)
 ------|-----------|------------|----------  
   1   | Cam Mux 1 |      Front | Back  
   2   | Cam Mux 2 |     Side 1 | Side 2  
-  3   |  Bilge    |        Off | On  
+  3   |   Bilge   |        Off | Suck  
+  4   |   Bilge   |        Off | Push  
   4   |   Volt    |        Off | On 
   5   |  Laser    |        Off | On  
   6   |  Claw 1   |        Off | Open  
   7   |  Claw 2   |        Off | Close  
-  8   |  Claw 3   |    No Par. | Parallel  
 
-Claw States
 
- Value | State  
--------|--------------------------------
-   000 | Do Nothing  
-   001 | Open  
-   010 | Close 
-   011 | Open & Close, BAD -> Set to 00  
-   100 | Set parallel (Also do nothing)  
-   101 | Set parallel, Open  
-   110 | Set parallel, Close  
-   111 | Do nothing  
+If both bits for Bilge and Claw are set to 1, do nothing (must be an exclusive or to have an action)  
    
 
 Laser Tool: 1 bit for controller whether the horizontal or vertical  
