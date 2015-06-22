@@ -222,12 +222,7 @@ void MainThread::tick() {
         }
 
 
-
-
-
-
-
-        //cPacket->print();
+        cPacket->print();
         serial->write(cPacket->getPacket());
         delete cPacket;
 

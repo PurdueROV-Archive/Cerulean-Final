@@ -23,7 +23,7 @@ void Thruster::normalize(int values[], int size) {
 quint8 Thruster::convert(int val) {
     quint8 ret = 0;
     bool negative = (val < 0) ? true : false;
-    ret = (quint8) abs(val * .128);
+    ret = (quint8) abs(val * .127);
 
     if (negative){
         ret |= 0x80; // 0b10000000
