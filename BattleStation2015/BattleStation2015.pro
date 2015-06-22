@@ -10,9 +10,12 @@ SOURCES += main.cpp \
     serial.cpp \
     mainthread.cpp \
     joystick.cpp \
-    sdlwrap.cpp
+    sdlwrap.cpp \
+    thruster.cpp
 
 RESOURCES += qml.qrc
+
+CONFIG += c++11
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -56,4 +59,5 @@ HEADERS += \
     serial.h \
     mainthread.h \
     joystick.h \
-    sdlwrap.h
+    sdlwrap.h \
+    thruster.h
