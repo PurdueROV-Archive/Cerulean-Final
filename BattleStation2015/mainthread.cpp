@@ -61,7 +61,7 @@ void MainThread::stop() {
 void MainThread::tick() {
 
     qint64 now = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << now-lastTime;
+    //qDebug() << now-lastTime;
 
     lastTime = now;
 
@@ -109,6 +109,12 @@ void MainThread::tick() {
             controller->modelLaserOff();
         }
         cPacket->setLaser(controller->modelLaserEnabled());
+
+        //Claw Control
+        bool clawOpen = joystick1->getButtonState(JOYSTICK_A);
+        bool clawClose = joystick1->getButtonState(JOYSTICK_X);
+
+        cPacket->setClaw(clawOpen, clawClose);
 
 
         //Stepper Control (DPAD)
@@ -224,7 +230,7 @@ void MainThread::tick() {
         controller->modelSetThrusterValues(thrusters);
 
 
-        //cPacket->print();
+        cPacket->print();
         serial->write(cPacket->getPacket());
         delete cPacket;
 
