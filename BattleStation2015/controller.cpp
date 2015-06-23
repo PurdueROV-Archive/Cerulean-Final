@@ -275,6 +275,23 @@ quint8 Controller::modelLEDValue(int address) {
 }
 
 /////////////////////////////////////////
+//       Bilge Pump Properties         //
+/////////////////////////////////////////
+
+bool Controller::BilgePumpEnabled() const {
+    return bilgePumpEnabled;
+}
+
+void Controller::SetBilgePumpEnabled(bool enabled) {
+    bilgePumpEnabled = enabled;
+    emit BilgePumpEnabledChanged();
+}
+
+bool Controller::modelGetBilgePumpEnabled() {
+    return bilgePumpEnabled;
+}
+
+/////////////////////////////////////////
 //         Misc Public Slots           //
 /////////////////////////////////////////
 

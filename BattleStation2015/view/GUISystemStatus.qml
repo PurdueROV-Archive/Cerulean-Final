@@ -203,33 +203,20 @@ ROVCard {
                     id: bilgeLabel
                 }
 
-                Row {
+                ROVCheckBox {
                     anchors.top: bilgeLabel.bottom
                     anchors.topMargin: 10
-                    spacing: 30
-                    ExclusiveGroup {
-                        id: bilgeSelect
+                    size: 20
+                    checked: controller.BilgePumpEnabled;
+                    MouseArea {
+                        anchors.fill: parent
+                        preventStealing: true;
+                        onClicked: {
+                            controller.BilgePumpEnabled = !controller.BilgePumpEnabled
+                        }
                     }
 
-                    ROVRadio {
-                        text: "Off"
-                        size: 20
-                        checked: true
-                        exclusiveGroup: bilgeSelect
-                    }
-
-
-                    ROVRadio {
-                        text: "Suck"
-                        size: 20
-                        exclusiveGroup: bilgeSelect
-                    }
-
-                    ROVRadio {
-                        text: "Push"
-                        size: 20
-                        exclusiveGroup: bilgeSelect
-                    }
+                    text: (checked) ? "On" : "Off"
                 }
             }
 

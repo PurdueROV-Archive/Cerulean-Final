@@ -116,6 +116,9 @@ void MainThread::tick() {
 
         cPacket->setClaw(clawOpen, clawClose);
 
+        //Bilge Pump Control
+        cPacket->setBilgePump(controller->modelGetBilgePumpEnabled(), controller->modelGetBilgePumpEnabled());
+
 
         //Stepper Control (DPAD)
         if (joystick1->getButtonState(JOYSTICK_DP_LEFT)) {

@@ -57,13 +57,8 @@ void ControlPacket::setCamMux2(bool camMux2) {
 }
 
 void ControlPacket::setBilgePump(bool suck, bool push) {
-    if ((suck && push) || (!suck && !push)) {
-        bilgePumpSuck = false;
-        bilgePumpPush = false;
-    } else {
-        bilgePumpSuck = suck;
-        bilgePumpPush = push;
-    }
+    bilgePumpSuck = suck;
+    bilgePumpPush = push;
 }
 
 void ControlPacket::setVoltageMeasurement(bool enabled) {

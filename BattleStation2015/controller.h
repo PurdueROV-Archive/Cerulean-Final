@@ -23,6 +23,8 @@ class Controller : public QObject
     Q_PROPERTY(bool LaserEnabled READ LaserEnabled WRITE SetLaserEnabled NOTIFY LaserEnabledChanged)
     Q_PROPERTY(int LaserDistance READ LaserDistance NOTIFY LaserDistanceChanged)
 
+    Q_PROPERTY(bool BilgePumpEnabled READ BilgePumpEnabled WRITE SetBilgePumpEnabled NOTIFY BilgePumpEnabledChanged)
+
     Q_PROPERTY(QStringList ThrusterValues READ ThrusterValues NOTIFY ThrusterValuesChanged)
 
 
@@ -235,40 +237,32 @@ public:
     bool modelLaserEnabled();
     void modelSetLaserDistance(quint16 distance);
 
-/*
+
 /////////////////////////////////////////
 //       Bilge Pump Properties         //
-/////////////////////////////////////////
+/////////////////////////////////////////   
 
 //QML Property Definitions
 public:
-    QStringList SerialDevices() const; //Read property
+    //Read property
+    bool BilgePumpEnabled() const;
 
     //Write Property
+    void SetBilgePumpEnabled(bool enabled);
 
 private: //Dependencies
-    QStringList serialDevices;
+    bool bilgePumpEnabled = false;
 
 signals: //Signal to emit on change
-    void SerialDevicesChanged();
+    void BilgePumpEnabledChanged();
 
-//Additional Control Methods
-public slots:
-
-    //Select a device based combo index
-    void SerialSelect(int index);
-
-private: //dependencies
-    int index; //Selected Serial Device Index
 
 //Model C++ Control Methods
 public:
     //set serial device qlist for combobox
-    void modelSetSerialDevices(QStringList serialDevices);
+    bool modelGetBilgePumpEnabled();
 
-signals:
-    void modelSelectSerial(int index); //emit when serial device combobox index changed
-
+/*
 /////////////////////////////////////////
 //      Fuse Detection Properties      //
 /////////////////////////////////////////
