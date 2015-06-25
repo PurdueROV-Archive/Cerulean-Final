@@ -49,10 +49,10 @@ Bit # |    Tool   | State (0)  | State (1)
 ------|-----------|------------|----------  
   1   | Cam Mux 1 |      Front | Back  
   2   | Cam Mux 2 |     Side 1 | Side 2
-  3   |  Claw 1   |        Off | Open  
-  4   |  Claw 2   |        Off | Close  
-  5   |   Bilge   |        Off | Suck  
-  6   |   Bilge   |        Off | Push  
+  3   |  Claw 1   |       Open | Close  
+  4   | Stepper 0 |    Nothing | Set reported angle to 0  
+  5   |   Bilge   |        Off | On  
+  6   |    N/A    |        N/A | N/A  
   7   |   Volt    |        Off | On 
   8   |   Laser   |        Off | On  
 
