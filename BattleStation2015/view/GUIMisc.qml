@@ -16,17 +16,140 @@ ROVCardTab {
     headerColor: mainColor
     accent: mainAccent
 
-    //Mission 1 Tasks
+
+
     Tab {
         title: "Calculations"
-        Label {
+        Item {
             anchors.fill: parent
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            anchors.margins: 15
 
-            color: "white"
-            font.pixelSize: 40
-            text: "Do calculations and stuffs"
+            Row {
+                width: parent.width
+                spacing: 10
+                id: calcRow
+                height: 150
+
+                Item {
+                    width: (parent.width/2) - 5
+                    height: 100
+
+                    Rectangle {
+                        id: measure1
+                        color: "white"
+                        width: parent.width
+                        height: 26
+                        TextInput {
+                            id: textMeasure1
+                            anchors.margins: 3
+                            text: "0"
+                            color: "black"
+                            anchors.fill: parent
+                            font.family: roboto.name
+                            font.pixelSize: 20
+                            selectByMouse: true
+                        }
+                    }
+
+                    ROVButton {
+                        anchors.top: measure1.bottom
+                        anchors.topMargin: 20
+                        width: parent.width/2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "Copy laser"
+                        height: 25
+                        color: mainColor
+                        fontSize: 20
+                        onClicked: textMeasure1.text = controller.LaserDistance
+                    }
+                }
+
+                Item {
+                    width: (parent.width/2) - 5
+                    height: 50
+
+                    Rectangle {
+                        id: measure2
+                        color: "white"
+                        width: parent.width
+                        height: 26
+                        TextInput {
+                            id: textMeasure2
+                            anchors.margins: 3
+                            text: "0"
+                            color: "black"
+                            anchors.fill: parent
+                            font.family: roboto.name
+                            font.pixelSize: 20
+                            selectByMouse: true
+                        }
+                    }
+
+                    ROVButton {
+                        anchors.top: measure2.bottom
+                        anchors.topMargin: 20
+                        width: parent.width/2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "Copy laser"
+                        height: 25
+                        color: mainColor
+                        fontSize: 20
+                        onClicked: textMeasure2.text = controller.LaserDistance
+                    }
+                }
+            }
+            Text {
+                id: degrees
+                width: parent.width
+                anchors.top: calcRow.bottom
+                anchors.topMargin: 20
+                height: 20
+                color: "white"
+                font.pixelSize: 20
+                text: Math.round(controller.StepperAngle*10)/10 + " degrees"
+            }
+
+            Text {
+                id: formula
+                width: parent.width
+                anchors.top: degrees.bottom
+                anchors.topMargin: 20
+                height: 20
+                color: "white"
+                font.pixelSize: 20
+                text: "c^2 = a^2 + b^2 - 2ab*cos(angleC)"
+            }
+
+            Text {
+                id: result
+                width: parent.width
+                anchors.top: formula.bottom
+                anchors.topMargin: 20
+                height: 20
+                color: "white"
+                font.pixelSize: 20
+                text: calculateLength();
+            }
+
+            ROVButton {
+                anchors.top: result.bottom
+                anchors.topMargin: 20
+                anchors.left: parent.left
+                width: 100
+                text: "Calculate"
+                height: 25
+                color: mainColor
+                fontSize: 20
+                onClicked: result.text = calculateLength();
+            }
+
+            function calculateLength() {
+                var a = parseInt(textMeasure1.text);
+                var b = parseInt(textMeasure2.text);
+                var cAngle = controller.StepperAngle;
+                console.log(a, b, cAngle);
+                return Math.sqrt(((a*a) + (b*b) - (2*a*b*Math.cos(cAngle))));
+            }
         }
     }
 

@@ -39,6 +39,13 @@ private:
 
     qint16 homeHeldTime = 0;
 
+    bool clawState = false;
+
+    int stepperAngle = 0;
+
+    int lastThrusters[8] = {0,0,0,0,0,0,0,0};
+
+
 public slots:
     void tick();
     bool start();

@@ -21,11 +21,17 @@ class Controller : public QObject
     Q_PROPERTY(bool CameraSelect2 READ CameraSelect2 WRITE SetCameraSelect2 NOTIFY CameraSelect2Changed)
 
     Q_PROPERTY(bool LaserEnabled READ LaserEnabled WRITE SetLaserEnabled NOTIFY LaserEnabledChanged)
-    Q_PROPERTY(int LaserDistance READ LaserDistance NOTIFY LaserDistanceChanged)
+    Q_PROPERTY(float LaserDistance READ LaserDistance NOTIFY LaserDistanceChanged)
 
     Q_PROPERTY(bool BilgePumpEnabled READ BilgePumpEnabled WRITE SetBilgePumpEnabled NOTIFY BilgePumpEnabledChanged)
 
     Q_PROPERTY(QStringList ThrusterValues READ ThrusterValues NOTIFY ThrusterValuesChanged)
+
+    Q_PROPERTY(int Voltage1 READ Voltage1 NOTIFY Voltage1Changed)
+    Q_PROPERTY(int Voltage2 READ Voltage2 NOTIFY Voltage2Changed)
+    Q_PROPERTY(int Voltage3 READ Voltage3 NOTIFY Voltage3Changed)
+
+    Q_PROPERTY(float StepperAngle READ StepperAngle NOTIFY StepperAngleChanged)
 
 
 /////////////////////////////////////////
@@ -217,14 +223,14 @@ public:
 public:
     //Read Property
     bool LaserEnabled() const; //Read property
-    int LaserDistance() const;
+    float LaserDistance() const;
 
     //Write Property
     void SetLaserEnabled(bool enabled);
 
 private: //Dependencies
     bool laserEnabled = false;
-    quint16 laserDistance = 0;
+    float laserDistance = 0.0;
 
 signals: //Signal to emit on change
     void LaserEnabledChanged();
@@ -235,7 +241,7 @@ public:
     //set serial device qlist for combobox
     void modelLaserOff();
     bool modelLaserEnabled();
-    void modelSetLaserDistance(quint16 distance);
+    void modelSetLaserDistance(float distance);
 
 
 /////////////////////////////////////////
@@ -261,6 +267,25 @@ signals: //Signal to emit on change
 public:
     //set serial device qlist for combobox
     bool modelGetBilgePumpEnabled();
+
+
+/////////////////////////////////////////
+//            Valve Turner             //
+/////////////////////////////////////////
+
+//Additional Control Methods
+public slots:
+
+    //Select a device based combo index
+    void ValveValue(int value);
+
+private: //dependencies
+    int value; //Valve Value
+
+//Model C++ Control Methods
+public:
+    //get valve value
+    int modelGetValveValue();
 
 /*
 /////////////////////////////////////////
@@ -295,43 +320,58 @@ public:
 
 signals:
     void modelSelectSerial(int index); //emit when serial device combobox index changed
-
+*/
 /////////////////////////////////////////
 //   Voltage Measurement Properties    //
 /////////////////////////////////////////
 
 //QML Property Definitions
 public:
-    QStringList SerialDevices() const; //Read property
+    //Read Property
+    int Voltage1() const;
+    int Voltage2() const;
+    int Voltage3() const;
 
     //Write Property
 
 private: //Dependencies
-    QStringList serialDevices;
+    int voltage1measure = 0;
+    int voltage2measure = 0;
+    int voltage3measure = 0;
 
 signals: //Signal to emit on change
-    void SerialDevicesChanged();
-
-//Additional Control Methods
-public slots:
-
-    //Select a device based combo index
-    void SerialSelect(int index);
-
-private: //dependencies
-    int index; //Selected Serial Device Index
+    void Voltage1Changed();
+    void Voltage2Changed();
+    void Voltage3Changed();
 
 //Model C++ Control Methods
 public:
     //set serial device qlist for combobox
-    void modelSetSerialDevices(QStringList serialDevices);
+    void modelSetVoltageDevice(int voltage1, int voltage2, int voltage3);
 
-signals:
-    void modelSelectSerial(int index); //emit when serial device combobox index changed
-*/
 
 /////////////////////////////////////////
-//       Laser Control Properties      //
+//      Stepper Angle Properties       //
+/////////////////////////////////////////
+
+//QML Property Definitions
+public:
+    //Read Property
+    float StepperAngle() const;
+
+private: //Dependencies
+    float angle = 0;
+
+signals: //Signal to emit on change
+    void StepperAngleChanged();
+
+//Model C++ Control Methods
+public:
+    //set serial device qlist for combobox
+    void modelSetStepperAngle(int angle);
+
+/////////////////////////////////////////
+//        LED Control Properties       //
 /////////////////////////////////////////
 //QML Property Definitions
 public:

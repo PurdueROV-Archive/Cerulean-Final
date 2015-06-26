@@ -231,7 +231,7 @@ bool Controller::LaserEnabled() const {
     return laserEnabled;
 }
 
-int Controller::LaserDistance() const {
+float Controller::LaserDistance() const {
     return laserDistance;
 }
 
@@ -249,13 +249,13 @@ bool Controller::modelLaserEnabled() {
     return laserEnabled;
 }
 
-void Controller::modelSetLaserDistance(quint16 distance) {
+void Controller::modelSetLaserDistance(float distance) {
     laserDistance = distance;
     emit LaserDistanceChanged();
 }
 
 /////////////////////////////////////////
-//       Laser Control Properties      //
+//         LED Control Properties      //
 /////////////////////////////////////////
 
 //Control Methods
@@ -275,6 +275,18 @@ quint8 Controller::modelLEDValue(int address) {
 }
 
 /////////////////////////////////////////
+//            Valve Turner             //
+/////////////////////////////////////////
+
+void Controller::ValveValue(int value) {
+    this->value = value;
+}
+
+int Controller::modelGetValveValue() {
+    return value;
+}
+
+/////////////////////////////////////////
 //       Bilge Pump Properties         //
 /////////////////////////////////////////
 
@@ -289,6 +301,44 @@ void Controller::SetBilgePumpEnabled(bool enabled) {
 
 bool Controller::modelGetBilgePumpEnabled() {
     return bilgePumpEnabled;
+}
+
+/////////////////////////////////////////
+//       Voltage Properties            //
+/////////////////////////////////////////
+
+int Controller::Voltage1() const {
+    return voltage1measure;
+}
+
+int Controller::Voltage2() const {
+    return voltage2measure;
+}
+
+int Controller::Voltage3() const {
+    return voltage3measure;
+}
+
+void Controller::modelSetVoltageDevice(int voltage1, int voltage2, int voltage3) {
+    this->voltage1measure = voltage1;
+    this->voltage2measure = voltage2;
+    this->voltage3measure = voltage3;
+    emit Voltage1Changed();
+    emit Voltage2Changed();
+    emit Voltage3Changed();
+}
+
+/////////////////////////////////////////
+//      Stepper Angle Properties       //
+/////////////////////////////////////////
+
+float Controller::StepperAngle() const {
+    return angle * 0.9;
+}
+
+void Controller::modelSetStepperAngle(int angle) {
+    this->angle = angle;
+    emit StepperAngleChanged();
 }
 
 /////////////////////////////////////////

@@ -6,6 +6,9 @@ Item {
     id: holder
     property string labeltext
     property alias value: slider.value
+    property alias minimumValue: slider.minimumValue
+    property alias maximumValue: slider.maximumValue
+    property alias stepSize: slider.stepSize
     property int address
     width: parent.width
     height: 50

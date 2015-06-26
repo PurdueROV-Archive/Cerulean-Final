@@ -78,28 +78,6 @@ ROVCard {
                 }
             }
 
-            //Foot Turner
-            Item {
-                height: 60
-                width: parent.width
-                Text {
-                    text: "Valve Turner"
-                    font.family: roboto.name
-                    color: "white"
-                    font.pixelSize: 20
-
-                    id: valveTurnerLabel
-                }
-
-                ROVCheckBox {
-                    anchors.top: valveTurnerLabel.bottom
-                    anchors.topMargin: 10
-                    size: 20
-                    checked: false
-                    text: (checked) ? "100%!!!" : "Off"
-                }
-            }
-
             //Laser
             Item {
                 height: 60
@@ -219,29 +197,6 @@ ROVCard {
                     text: (checked) ? "On" : "Off"
                 }
             }
-
-            //Fuse Detection
-            Item {
-                height: 60
-                width: parent.width
-                Text {
-                    text: "Fuse Dectection"
-                    font.family: roboto.name
-                    color: "white"
-                    font.pixelSize: 20
-
-                    id: fuseLabel
-                }
-
-                Text {
-                    anchors.top: fuseLabel.bottom
-                    anchors.topMargin: 10
-                    text: "Status: " + "Okay!"
-                    font.family: roboto.name
-                    color: "white"
-                    font.pixelSize: 20
-                }
-            }
         }
     }
 
@@ -250,7 +205,7 @@ ROVCard {
         anchors.top: row.bottom
         anchors.topMargin: 25
 
-        height: 100
+        height: voltageLabel.checked ? 50 : 20;
         width: parent.width
 
         ROVCheckBox {
@@ -269,7 +224,7 @@ ROVCard {
             visible: voltageLabel.checked
 
             Text {
-                text: "Top: " + "High"
+                text: "1: " + controller.Voltage1
                 font.family: roboto.name
                 color: "white"
                 font.pixelSize: 20
@@ -279,7 +234,7 @@ ROVCard {
 
 
             Text {
-                text: "Center: " + "Low"
+                text: "2: " + controller.Voltage2
                 font.family: roboto.name
                 color: "white"
                 font.pixelSize: 20
@@ -288,13 +243,46 @@ ROVCard {
             }
 
             Text {
-                text: "Bottom: " + "High"
+                text: "3: " + controller.Voltage3
                 font.family: roboto.name
                 color: "white"
                 font.pixelSize: 20
                 width: parent.width/3
                 horizontalAlignment: Text.AlignHCenter
             }
+        }
+    }
+
+    Item {
+        id: valveTurner
+        anchors.top: voltageDisplay.bottom
+        anchors.topMargin: 25
+
+        height: 100
+        width: parent.width
+
+        ROVCheckBox {
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            id: valveLabel
+            size: 20
+            checked: false
+            text: "Valve Turner"
+            onCheckedChanged: valveSlider.value = 0
+        }
+
+        ROVSlider {
+            id: valveSlider
+            onValueChanged: controller.ValveValue(value);
+            anchors.top: valveLabel.bottom
+            anchors.topMargin: 10
+            width: parent.width
+            visible: valveLabel.checked
+            labeltext: "Valve Turner:"
+            value: 0
+            minimumValue: -10
+            maximumValue: 10
+            stepSize: 1
         }
     }
 }

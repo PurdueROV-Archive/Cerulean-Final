@@ -111,22 +111,32 @@ void MainThread::tick() {
         cPacket->setLaser(controller->modelLaserEnabled());
 
         //Claw Control
-        bool clawOpen = joystick1->getButtonState(JOYSTICK_A);
-        bool clawClose = joystick1->getButtonState(JOYSTICK_X);
+        if (joystick1->getButtonPressed(JOYSTICK_A)) {
+            clawState = !clawState;
+        }
 
-        cPacket->setClaw(clawOpen, clawClose);
+        cPacket->setClaw(clawState);
 
         //Bilge Pump Control
-        cPacket->setBilgePump(controller->modelGetBilgePumpEnabled(), controller->modelGetBilgePumpEnabled());
+        cPacket->setBilgePump(controller->modelGetBilgePumpEnabled());
 
 
-        //Stepper Control (DPAD)
+        //Stepper Control (DPAD & X)
+        if (joystick1->getButtonPressed(JOYSTICK_X)) {
+            stepperAngle = 0;
+            controller->modelSetStepperAngle(0);
+        }
+
         if (joystick1->getButtonState(JOYSTICK_DP_LEFT)) {
-            cPacket->setHStepper(false, 2);
+            cPacket->setHStepper(false, 1);
+            stepperAngle -= 1;
+            controller->modelSetStepperAngle(stepperAngle);
         }
 
         if (joystick1->getButtonState(JOYSTICK_DP_RIGHT)) {
-            cPacket->setHStepper(true, 2);
+            cPacket->setHStepper(true, 1);
+            stepperAngle += 1;
+            controller->modelSetStepperAngle(stepperAngle);
         }
 
         if (joystick1->getButtonState(JOYSTICK_DP_UP)) {
@@ -147,6 +157,16 @@ void MainThread::tick() {
         };
 
         cPacket->setLEDs(leds);
+
+        //Valve Turner
+        int valveValue = controller->modelGetValveValue();
+        if (valveValue != 0) {
+            bool neg = valveValue < 0;
+            valveValue = (int) ((abs(valveValue)-1) * (600/9)) + 400;
+            valveValue = (neg) ? valveValue*-1 : valveValue;
+        }
+
+        cPacket->setFootTurner(Thruster::convert(valveValue));
 
         //Calculate Thruster Values
 
@@ -222,6 +242,18 @@ void MainThread::tick() {
         Thruster::normalize(horizontalThrusters, 4);
         Thruster::normalize(verticalThrusters, 4);
 
+        int diff = 25;
+        for (int i = 0; i < 8; i++) {
+            if (abs(thrusters[i] - lastThrusters[i]) > diff) {
+                if (lastThrusters[i] < thrusters[i]) {
+                    thrusters[i] = lastThrusters[i] + diff;
+                } else if (lastThrusters[i] > thrusters[i]) {
+                    thrusters[i] = lastThrusters[i] - diff;
+                }
+            }
+            lastThrusters[i] = thrusters[i];
+        }
+
 //        qDebug("[1]: %d, [2]: %d, [3]: %d, [4]: %d\n[5]: %d, [6]: %d, [7]: %d, [8]: %d",
 //               horizontalThrusters[0], horizontalThrusters[1], horizontalThrusters[2], horizontalThrusters[3],
 //                verticalThrusters[0], verticalThrusters[1], verticalThrusters[2], verticalThrusters[3]);
@@ -233,17 +265,52 @@ void MainThread::tick() {
         controller->modelSetThrusterValues(thrusters);
 
 
-        cPacket->print();
+        //cPacket->print();
         serial->write(cPacket->getPacket());
         delete cPacket;
 
-//        QByteArray status = serial->read();
-//        if (status.size() > 0) {
-//            qDebug() << "Data read";
-//            for (int i = 0; i < status.size(); i++) {
-//                qDebug("[%d]: [%d]: %c", i, status.at(i), status.at(i));
-//            }
-//        }
+        QByteArray status = serial->read();
+        if (status.size() > 0) {
+            qDebug() << "Data read";
+            for (int i = 0; i < status.size(); i++) {
+                qDebug("[%d]: %d", i, (quint8) status.at(i));
+            }
+
+            if (status.size() >= 13) {
+                quint16 voltage1 = 0x00;
+                voltage1 |= status.at(2) << 8;
+                voltage1 |= status.at(3);
+
+                quint16 voltage2 = 0x00;
+                voltage2 |= status.at(4) << 8;
+                voltage2 |= status.at(5);
+
+                quint16 voltage3 = 0x00;
+                voltage3 |= status.at(6) << 8;
+                voltage3 |= status.at(7);
+
+                controller->modelSetVoltageDevice(voltage1, voltage2, voltage3);
+
+
+                quint32 laser = 0x00;
+                quint8 laser1 = status.at(7);
+                quint8 laser2 = status.at(8);
+                quint8 laser3 = status.at(9);
+                quint8 laser4 = status.at(10);
+                laser |= (laser1 << 24);
+                laser |= (laser2 << 16);
+                laser |= (laser3 <<  8);
+                laser |= laser4;
+
+                float laserMeasurement = laser * 1.0;
+                laserMeasurement -= 10000;
+                laserMeasurement *= 1.33;
+                laserMeasurement += 5000;
+                laserMeasurement /= 1000;
+                controller->modelSetLaserDistance(laserMeasurement);
+
+            }
+        }
     }
 
 }

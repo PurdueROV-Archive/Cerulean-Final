@@ -37,14 +37,7 @@ void ControlPacket::setThruster(int address, quint8 value) {
 //    }
 //}
 
-void ControlPacket::setFootTurner(Motor* motor) {
-    if (motor == NULL) return;
-
-    quint8 value = (motor->getSpeed() >> 1);
-    if (motor->getDirection()) {
-        value = value & 0x80;
-    }
-
+void ControlPacket::setFootTurner(quint8 value) {
    footTurner = value;
 }
 
@@ -56,9 +49,8 @@ void ControlPacket::setCamMux2(bool camMux2) {
     this->camMux2 = camMux2;
 }
 
-void ControlPacket::setBilgePump(bool suck, bool push) {
-    bilgePumpSuck = suck;
-    bilgePumpPush = push;
+void ControlPacket::setBilgePump(bool enabled) {
+    bilgePump = enabled;
 }
 
 void ControlPacket::setVoltageMeasurement(bool enabled) {
@@ -69,14 +61,8 @@ void ControlPacket::setLaser(bool enabled) {
     laser = enabled;
 }
 
-void ControlPacket::setClaw(bool open, bool close) {
-    if ((open && close) || (!open && !close)) {
-        clawOpening = false;
-        clawClosing = false;
-    } else {
-        clawOpening = open;
-        clawClosing = close;
-    }
+void ControlPacket::setClaw(bool state) {
+    clawClose = state;
 }
 
 void ControlPacket::setLEDs(quint8 values[]) {
@@ -121,14 +107,14 @@ quint8 ControlPacket::getStepperByte() {
 quint8 ControlPacket::getToolByte() {
     quint8 toolByte = 0x00;
 
-    if (camMux1)            toolByte |= 0x80;
-    if (camMux2)            toolByte |= 0x40;
-    if (clawOpening)        toolByte |= 0x20;
-    if (clawClosing)        toolByte |= 0x10;
-    if (bilgePumpSuck)      toolByte |= 0x08;
-    if (bilgePumpPush)      toolByte |= 0x04;
-    if (voltageMeasurement) toolByte |= 0x02;
-    if (laser)              toolByte |= 0x01;
+    if (camMux1)            toolByte |= 0x80;     //1
+    if (camMux2)            toolByte |= 0x40;     //2
+    if (clawClose)          toolByte |= 0x20;     //3
+    //stepper 0             toolByte |= 0x10;     //4
+    if (bilgePump)          toolByte |= 0x08;     //5
+    //N/A                   toolByte |= 0x04;     //6
+    if (voltageMeasurement) toolByte |= 0x02;     //7
+    if (laser)              toolByte |= 0x01;     //8
 
 
     return toolByte;
@@ -198,15 +184,13 @@ void ControlPacket::reset() {
     camMux1 = false;
     camMux2 = false;
 
-    bilgePumpSuck = false;
-    bilgePumpPush = false;
+    bilgePump = false;
 
     voltageMeasurement = false;
 
     laser = false;
 
-    clawOpening = false;
-    clawClosing = false;
+    clawClose = false;
 
     vStepperUpDirection = true;
     vStepperAmount = 0;
